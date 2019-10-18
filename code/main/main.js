@@ -1,4 +1,16 @@
+//globals
+var state;  //current state of mirror ("inactive", "home", or name of application in fullscreen)
 
+
+/**
+ * Class containing data and methods required to draw fullscreen application
+ */
+class App {
+    constructor(name) {
+        this.name = name;
+    };
+    draw_app() {};
+}
 
 function setup() {
     createCanvas(1920, 1000);
@@ -22,4 +34,3 @@ function draw() {
 
 
 function draw_clock(x, y) {};
-
