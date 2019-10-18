@@ -19,3 +19,7 @@ function draw() {
     ellipse(1140, 225, 150, 150);
 
 }
+
+
+function draw_clock(x, y) {};
+
