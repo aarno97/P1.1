@@ -1,3 +1,5 @@
+// full screen size for apps is going to be 850 x 350
+
 //globals
 var state;  //current state of mirror ("inactive", "home", or name of application in fullscreen);
 var video;
@@ -29,7 +31,8 @@ function draw() {
 }
 
 
-function draw_clock(x, y) {};
+function draw_clock(x, y) {
+};
 
 
 function draw_home() {};
