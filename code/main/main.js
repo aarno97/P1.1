@@ -10,9 +10,10 @@ let capture;
  * Class containing data and methods required to draw fullscreen application
  */
 class App {
-    constructor(name, icon) {
+    constructor(name, icon, pos) {
         this.name = name;
         this.icon = icon;
+        this.pos = pos;
     }
     draw_app_icon() {};
     draw_app_fullscreen() {};
@@ -30,7 +31,8 @@ function setup() {
 function draw() {
     //draw webcam feed as background
     image(capture, 0, 0, 1000, 500);
-    draw_home();
+    //draw_home();
+    draw_initial();
 }
 
 
@@ -38,13 +40,15 @@ function draw_clock(x, y) {
 };
 
 
+
 function draw_home() {
     fill(26, 102, 255);
 
+    
     //rect(75, 75, 850, 350);
 }
 
 
 function draw_initial() {
-    ellipse(50,50,50,50);
+    ellipse(960,460,50,50);
 }
