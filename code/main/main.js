@@ -2,8 +2,6 @@
 
 //globals
 var state;  //current state of mirror ("inactive", "home", or name of application in fullscreen);
-var video;
-
 let capture;
 
 /**
@@ -29,12 +27,10 @@ function setup() {
 
 
 function draw() {
-    //draw webcam feed as background
-    translate(capture.width, 0);
-    scale(-1, 1);
-    image(capture, 0, 0, 1000, 500);
-    translate(capture.width, 0);
-    scale(-1, 1);
+    //draw mirrored webcam feed as background
+    mirror_camera();
+
+
     draw_home();
     //draw_clock(75, 75);
     //draw_initial();
@@ -42,8 +38,7 @@ function draw() {
 
 
 function draw_clock(x, y) {
-    
-};
+}
 
 
 function draw_home() {
@@ -63,4 +58,14 @@ function draw_home() {
 
 function draw_initial() {
     ellipse(960,460,50,50);
+}
+
+
+//Flips camera feed horizontally to mimic real mirror
+function mirror_camera() {
+    translate(capture.width, 0);
+    scale(-1, 1);
+    image(capture, 0, 0, 1000, 500);
+    translate(capture.width, 0);
+    scale(-1, 1);
 }
