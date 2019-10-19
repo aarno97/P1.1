@@ -30,3 +30,6 @@ function draw() {
 
 
 function draw_clock(x, y) {};
+
+
+function draw_home() {};
