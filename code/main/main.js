@@ -31,10 +31,12 @@ function draw() {
     //draw webcam feed as background
     image(capture, 0, 0, 1000, 500);
     draw_home();
+    draw_clock(75, 75);
 }
 
 
 function draw_clock(x, y) {
+    
 };
 
 
