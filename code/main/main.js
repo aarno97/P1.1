@@ -31,9 +31,9 @@ function setup() {
 function draw() {
     //draw webcam feed as background
     image(capture, 0, 0, 1000, 500);
-    //draw_home();
+    draw_home();
     //draw_clock(75, 75);
-    draw_initial();
+    //draw_initial();
 }
 
 
@@ -42,12 +42,18 @@ function draw_clock(x, y) {
 };
 
 
-
 function draw_home() {
-    fill(26, 102, 255);
+    fill(255, 255, 255);
+    ellipse(125, 435, 75, 75);
+    ellipse(250, 435, 75, 75);
+    ellipse(375, 435, 75, 75);
+    ellipse(500, 435, 75, 75);
+    ellipse(625, 435, 75, 75);
+    ellipse(750, 435, 75, 75);
 
-    
-    //rect(75, 75, 850, 350);
+    fill(77,77,77)
+    ellipse(875, 435, 75, 75);
+
 }
 
 
