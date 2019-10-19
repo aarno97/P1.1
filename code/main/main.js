@@ -1,6 +1,6 @@
 //globals
-var state;  //current state of mirror ("inactive", "home", or name of application in fullscreen)
-
+var state;  //current state of mirror ("inactive", "home", or name of application in fullscreen);
+var video;
 
 /**
  * Class containing data and methods required to draw fullscreen application
@@ -12,24 +12,20 @@ class App {
     draw_app() {};
 }
 
+
 function setup() {
-    createCanvas(1920, 1000);
+    createCanvas(1000, 500);
+    video = createCapture(VIDEO);
+    video.size(320, 240);
 }
 
 
 function draw() {
     background(255, 255, 255);
+    image(video, 0, 0);
     fill(26, 102, 255);
 
-    ellipse(480, 800, 150, 150);
-    ellipse(1440, 800, 150, 150);
-
-    ellipse(580, 500, 150, 150);
-    ellipse(1340, 500, 150, 150);
-
-    ellipse(780, 225, 150, 150);
-    ellipse(1140, 225, 150, 150);
-
+    rect(75, 150, 925, 775);
 }
 
 
