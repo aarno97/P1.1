@@ -30,7 +30,11 @@ function setup() {
 
 function draw() {
     //draw webcam feed as background
+    translate(capture.width, 0);
+    scale(-1, 1);
     image(capture, 0, 0, 1000, 500);
+    translate(capture.width, 0);
+    scale(-1, 1);
     draw_home();
     //draw_clock(75, 75);
     //draw_initial();
