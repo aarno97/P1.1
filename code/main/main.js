@@ -1,8 +1,9 @@
 // full screen size for apps is going to be 850 x 350
 
 //globals
-var state;  //current state of mirror ("inactive", "home", or name of application in fullscreen);
+var state;  //(str) current state of mirror ("inactive", "home", or name of application in fullscreen);
 let capture;
+
 
 /**
  * Class containing data and methods required to draw fullscreen application
@@ -30,15 +31,21 @@ function draw() {
     //draw mirrored webcam feed as background
     mirror_camera();
 
-
+    //TODO: switch statement over state global to determine what to draw
     draw_home();
-    //draw_clock(75, 75);
-    //draw_initial();
 }
 
 
-function draw_clock(x, y) {
-}
+function draw_header () {}
+
+
+function draw_clock() {}
+
+
+function draw_weather() {}
+
+
+function draw_date() {}
 
 
 function draw_home() {
@@ -50,7 +57,7 @@ function draw_home() {
     ellipse(625, 435, 75, 75);
     ellipse(750, 435, 75, 75);
 
-    fill(77,77,77)
+    fill(77,77,77);
     ellipse(875, 435, 75, 75);
 
 }
