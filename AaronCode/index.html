@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 <head>
     <script type="text/javascript" src="p5.js"></script>
     <script type = "text/javascript" src="sketch.js"></script>
@@ -8,6 +8,8 @@
     <script src='fullcalendar-4/packages/daygrid/main.js'></script>
     <script src = 'fullcalendar-4/packages/google-calendar/main.js'></script>
     <script>
+        import * as FullCalendar from "./fullcalendar-4/packages/core";
+
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
 
@@ -21,15 +23,10 @@
 
                 displayEventTime: false, // don't show the time column in list view
 
-                // THIS KEY WON'T WORK IN PRODUCTION!!!
-                // To make your own Google API key, follow the directions here:
-                // http://fullcalendar.io/docs/google_calendar/
+                //This is confidential
                 googleCalendarApiKey: 'AIzaSyA2NJZvTatDvC8SVJnfZ4wXwH3sdjac9so',
 
-                // US Holidays
-                // events: 'en.usa#holiday@group.v.calendar.google.com',
-                // events: 'mfjsnor8bvj6c4a0vshb24g7sk@group.calendar.google.com',
-
+               //allows us to pull data from multiple calendars: regular calendar and US Holidays
                 eventSources: [
                     {
                         googleCalendarId: 'mfjsnor8bvj6c4a0vshb24g7sk@group.calendar.google.com'
@@ -53,6 +50,7 @@
             calendar.render();
         });
     </script>
+    <title></title>
 </head>
 <body>
     <div id='calendar'></div>
