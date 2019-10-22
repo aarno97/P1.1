@@ -1,13 +1,14 @@
 // full screen size for apps is going to be 850 x 350
 
 //globals
+//OpenWeather lubbock code = 5525577
 var state;  //current state of mirror ("inactive", "home", or name of application in fullscreen);
 let capture;
 
 /**
  * Class containing data and methods required to draw fullscreen application
  */
-class App {
+class app {
     constructor(name, icon, pos) {
         this.name = name;
         this.icon = icon;
@@ -61,6 +62,8 @@ function draw_initial() {
 }
 
 
+//CAMERA FUNCTIONS
+
 //Flips camera feed horizontally to mimic real mirror
 function mirror_camera() {
     translate(capture.width, 0);
@@ -69,3 +72,12 @@ function mirror_camera() {
     translate(capture.width, 0);
     scale(-1, 1);
 }
+
+
+function zoom() {}
+
+
+function detect_motion() {}
+
+
+//INITIALIZE OBJECTS
