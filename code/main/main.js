@@ -1,22 +1,12 @@
+const fetch = require("node-fetch");
+
 // full screen size for apps is going to be 850 x 350
 
-//globals
+//GLOBALS
 //OpenWeather lubbock code = 5525577
-var state;  //current state of mirror ("inactive", "home", or name of application in fullscreen);
+var state;  //(str) current state of mirror ("inactive", "home", or name of application in fullscreen);
+var weather_data;  //json of local weather data
 let capture;
-
-/**
- * Class containing data and methods required to draw fullscreen application
- */
-class app {
-    constructor(name, icon, pos) {
-        this.name = name;
-        this.icon = icon;
-        this.pos = pos;
-    }
-    draw_app_icon() {};
-    draw_app_fullscreen() {};
-}
 
 
 function setup() {
@@ -24,22 +14,49 @@ function setup() {
     capture = createCapture(VIDEO);
     capture.size(1000, 500);
     capture.hide();  //prevents duplicate feed
+
+    get_weather_data(5525577);
 }
 
 
 function draw() {
     //draw mirrored webcam feed as background
-    mirror_camera();
+    //mirror_camera();
 
-
-    draw_home();
-    //draw_clock(75, 75);
-    //draw_initial();
+    //TODO: switch statement over state global to determine what to draw
+    //draw_home();
+    draw_weather();
 }
 
 
-function draw_clock(x, y) {
+function draw_header () {}
+
+
+function draw_clock() {}
+
+
+function draw_weather() {
+    var f = Math.round(((parseFloat(weather_data.main.temp)-273.15)*1.8)+32);
+    textSize(32);
+    text(f, 50, 40);
 }
+
+
+function get_weather_data(cityID) {
+    var key = '{c716233d515c9bd6c5a36ad3cf719885}';
+    fetch('https://api.openweathermap.org/data/2.5/weather?id=' + cityID+ '&appid=' + key)  
+    .then(function(resp) { return resp.json() }) // Convert data to json
+    .then(function(data) {
+      console.log(data);
+    })
+    .catch(function() {
+      // catch any errors
+    });
+    weather_data = data;
+  }
+
+
+function draw_date() {}
 
 
 function draw_home() {
@@ -51,7 +68,7 @@ function draw_home() {
     ellipse(625, 435, 75, 75);
     ellipse(750, 435, 75, 75);
 
-    fill(77,77,77)
+    fill(77,77,77);
     ellipse(875, 435, 75, 75);
 
 }
@@ -81,3 +98,4 @@ function detect_motion() {}
 
 
 //INITIALIZE OBJECTS
+get_weather_data(5525577);
