@@ -1,8 +1,11 @@
 // full screen size for apps is going to be 850 x 350
 
 //globals
-var state;  //(str) current state of mirror ("inactive", "home", or name of application in fullscreen);
+var state = "inactive";  //(str) current state of mirror ("inactive", "initial", "home", or name of application in fullscreen);
 let capture;
+
+//buton globals
+let tbutton;
 
 
 /**
@@ -24,6 +27,14 @@ function setup() {
     capture = createCapture(VIDEO);
     capture.size(1000, 500);
     capture.hide();  //prevents duplicate feed
+
+    //setup_home();
+}
+
+
+function setup_home() {
+    tbutton - createButton("tbutton");
+    tbutton.position(250, 250);
 }
 
 
@@ -59,7 +70,6 @@ function draw_home() {
 
     fill(77,77,77);
     ellipse(875, 435, 75, 75);
-
 }
 
 
