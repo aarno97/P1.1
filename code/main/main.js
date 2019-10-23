@@ -1,11 +1,11 @@
-const fetch = require("node-fetch");
+const fetch = require('node-fetch');
 
 // full screen size for apps is going to be 850 x 350
 
 //GLOBALS
 //OpenWeather lubbock code = 5525577
 var state;  //(str) current state of mirror ("inactive", "home", or name of application in fullscreen);
-var weather_data;  //json of local weather data
+var f;  //json of local weather data
 let capture;
 
 
@@ -35,24 +35,27 @@ function draw_header () {}
 function draw_clock() {}
 
 
-function draw_weather() {
-    var f = Math.round(((parseFloat(weather_data.main.temp)-273.15)*1.8)+32);
-    textSize(32);
-    text(f, 50, 40);
+function draw_weather(weather_data) {
+    f = Math.round(((parseFloat(weather_data.main.temp)-273.15)*1.8)+32);
+    //textSize(32);
+    //text(f, 50, 40);
+    console.log(f);
 }
 
 
 function get_weather_data(cityID) {
-    var key = '{c716233d515c9bd6c5a36ad3cf719885}';
-    fetch('https://api.openweathermap.org/data/2.5/weather?id=' + cityID+ '&appid=' + key)  
+    var key = 'c716233d515c9bd6c5a36ad3cf719885';
+    fetch('http://api.openweathermap.org/data/2.5/weather?id=' + cityID + '&appid=' + key)
     .then(function(resp) { return resp.json() }) // Convert data to json
     .then(function(data) {
-      console.log(data);
+        console.log('hey Im here');
+        console.log(data);
     })
     .catch(function() {
       // catch any errors
+      console.log('error caught');
     });
-    weather_data = data;
+
   }
 
 
@@ -98,4 +101,5 @@ function detect_motion() {}
 
 
 //INITIALIZE OBJECTS
-get_weather_data(5525577);
+
+//get_weather_data(5525577);
