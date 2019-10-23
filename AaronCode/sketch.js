@@ -16,12 +16,6 @@ function setup() {
 }
 
 function draw() {
-    let calendar = new Calendar(calendarEl, {
-        plugins: [ googleCalendarPlugin ],
-        googleCalendarApiKey: 'AIzaSyA2NJZvTatDvC8SVJnfZ4wXwH3sdjac9so',
-        events: {
-            googleCalendarId: 'mfjsnor8bvj6c4a0vshb24g7sk@group.calendar.google.com',
-            className: 'gcal-event'
-        }
-    });
+    ellipse(100, 100, 250, 250);
+
 }
