@@ -10,18 +10,9 @@ class App {
 
 function setup() {
     createCanvas(1000, 500);
-    capture = createCapture(VIDEO);
-    capture.size(1000, 500);
-    capture.hide();  //prevents duplicate feed
+    ellipse(300, 300, 100, 100);
 }
 
 function draw() {
-    let calendar = new Calendar(calendarEl, {
-        plugins: [ googleCalendarPlugin ],
-        googleCalendarApiKey: 'AIzaSyA2NJZvTatDvC8SVJnfZ4wXwH3sdjac9so',
-        events: {
-            googleCalendarId: 'mfjsnor8bvj6c4a0vshb24g7sk@group.calendar.google.com',
-            className: 'gcal-event'
-        }
-    });
+
 }
