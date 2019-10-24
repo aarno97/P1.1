@@ -1,49 +1,29 @@
+const fetch = require('node-fetch');
+
 // full screen size for apps is going to be 850 x 350
 
-//globals
-var state = "inactive";  //(str) current state of mirror ("inactive", "initial", "home", or name of application in fullscreen);
-let capture;
+//GLOBALS
+//OpenWeather lubbock code = 5525577
+var state;  //(str) current state of mirror ("inactive", "home", or name of application in fullscreen);
+var weather_data;  //json of local weather data
+let c;
 
 //buton globals
-let tbutton;
 
 
-/**
- * Class containing data and methods required to draw fullscreen application
- */
-class App {
-    constructor(name, icon, pos) {
-        this.name = name;
-        this.icon = icon;
-        this.pos = pos;
-    }
-    draw_app_icon() {};
-    draw_app_fullscreen() {};
-}
-
-
-function setup() {
+async function setup() {
     createCanvas(1000, 500);
-    capture = createCapture(VIDEO);
-    capture.size(1000, 500);
-    capture.hide();  //prevents duplicate feed
-
-    //setup_home();
-}
-
-
-function setup_home() {
-    tbutton - createButton("tbutton");
-    tbutton.position(250, 250);
+    c = createCapture(VIDEO);
+    c.size(1000,500);
+    //capture.size(1000, 500);
+    c.hide();  //prevents duplicate feed
 }
 
 
 function draw() {
-    //draw mirrored webcam feed as background
+    background(255)
     mirror_camera();
-
-    //TODO: switch statement over state global to determine what to draw
-    draw_home();
+    get_weather_data();
 }
 
 
@@ -53,7 +33,30 @@ function draw_header () {}
 function draw_clock() {}
 
 
-function draw_weather() {}
+
+function draw_weather(data) {
+    fill(255,255,255);
+    textSize(50);
+    textFont('Georgia');
+    text(data, 900, 65);
+}
+
+
+async function get_weather_data(cityID) {
+    /*
+    var key = 'c716233d515c9bd6c5a36ad3cf719885';
+    fetch('http://api.openweathermap.org/data/2.5/weather?id=' + cityID + '&appid=' + key)
+    .then(function(resp) { return resp.json() }) // Convert data to json
+    .then(data => weather_data = data)
+    .catch(function() {
+      // catch any errors
+      console.log('error caught');
+    });*/
+
+    var key = 'c716233d515c9bd6c5a36ad3cf719885';
+    var resp = await fetch('http://api.openweathermap.org/data/2.5/weather?id=' + cityID + '&appid=' + key);
+    return resp.json();
+  }
 
 
 function draw_date() {}
@@ -78,11 +81,23 @@ function draw_initial() {
 }
 
 
+//CAMERA FUNCTIONS
+
 //Flips camera feed horizontally to mimic real mirror
 function mirror_camera() {
-    translate(capture.width, 0);
+    translate(c.width, 0);
     scale(-1, 1);
-    image(capture, 0, 0, 1000, 500);
-    translate(capture.width, 0);
+    image(c, 0, 0, 1000, 500);
+    translate(c.width, 0);
     scale(-1, 1);
 }
+
+
+function zoom() {}
+
+
+function detect_motion() {}
+
+
+//INITIALIZE OBJECTS
+get_weather_data(5525577).then(function(resp) {weather_data = resp});
