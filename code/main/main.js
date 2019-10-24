@@ -30,8 +30,9 @@ async function setup() {
 function draw() {
     //background(0,0,0);
     //mirror_camera();
-    //draw_header();
+
     draw_weather_fullscreen();
+    draw_header()
 }
 
 
@@ -45,6 +46,8 @@ function draw_header () {
 
 function draw_clock() {}
 
+
+//========== WEATHER FUNCTIONS ==========
 
 function draw_weather_fullscreen() {
     background(33,33,33);
@@ -73,7 +76,7 @@ function draw_weather_fullscreen_data() {
     var day4 = weekly_weather_data.list[21];
     var day5 = weekly_weather_data.list[29];
 
-    draw_weather_window(day1, 145, 150);
+    draw_weather_window(day1, 160, 150);
     draw_weather_window(day2, 330, 150);
     draw_weather_window(day3, 500, 150);
     draw_weather_window(day4, 670, 150);
@@ -126,6 +129,8 @@ function get_current_weather_data(cityID) {
   }
 
 
+// ========== DATE FUNCTIONS ==========
+
 function draw_date() {
     let date = get_date();
 
@@ -164,7 +169,7 @@ function draw_initial() {
 }
 
 
-//CAMERA FUNCTIONS
+// ========== CAMERA FUNCTIONS ==========
 
 //Flips camera feed horizontally to mimic real mirror
 function mirror_camera() {
