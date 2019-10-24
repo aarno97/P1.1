@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+var fetch = require('node-fetch');
 
 // full screen size for apps is going to be 850 x 350
 
@@ -6,7 +6,7 @@ const fetch = require('node-fetch');
 //OpenWeather lubbock code = 5525577
 var state;  //(str) current state of mirror ("inactive", "home", or name of application in fullscreen);
 var weather_data;  //json of local weather data
-let c;
+var c;
 
 //buton globals
 
@@ -15,15 +15,16 @@ async function setup() {
     createCanvas(1000, 500);
     c = createCapture(VIDEO);
     c.size(1000,500);
-    //capture.size(1000, 500);
     c.hide();  //prevents duplicate feed
+
+    weather_data = await get_weather_data(5525577);  //fetch weather data
 }
 
 
 function draw() {
     background(255)
     mirror_camera();
-    get_weather_data();
+    draw_weather(weather_data);
 }
 
 
@@ -33,16 +34,20 @@ function draw_header () {}
 function draw_clock() {}
 
 
-
 function draw_weather(data) {
-    fill(255,255,255);
-    textSize(50);
-    textFont('Georgia');
-    text(data, 900, 65);
+    if (data != null) {  //workaround for javascript's fucking async bullshit
+        let f = Math.round(((parseFloat(data.main.temp)-273.15)*1.8)+32);
+        let degrees = f + '\xB0'
+        fill(255,255,255);
+        textSize(50);
+        textFont('Georgia');
+        text(degrees, 900, 55);
+    }
+
 }
 
 
-async function get_weather_data(cityID) {
+function get_weather_data(cityID) {
     /*
     var key = 'c716233d515c9bd6c5a36ad3cf719885';
     fetch('http://api.openweathermap.org/data/2.5/weather?id=' + cityID + '&appid=' + key)
@@ -54,8 +59,9 @@ async function get_weather_data(cityID) {
     });*/
 
     var key = 'c716233d515c9bd6c5a36ad3cf719885';
-    var resp = await fetch('http://api.openweathermap.org/data/2.5/weather?id=' + cityID + '&appid=' + key);
-    return resp.json();
+    return fetch('http://api.openweathermap.org/data/2.5/weather?id=' + cityID + '&appid=' + key).then(response => response.json());
+    //console.log(json);
+    //weather_data = json;
   }
 
 
@@ -100,4 +106,4 @@ function detect_motion() {}
 
 
 //INITIALIZE OBJECTS
-get_weather_data(5525577).then(function(resp) {weather_data = resp});
+setup();
