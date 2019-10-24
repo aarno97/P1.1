@@ -10,11 +10,9 @@ class App {
 
 function setup() {
     createCanvas(1000, 500);
-    capture = createCapture(VIDEO);
-    capture.size(1000, 500);
-    capture.hide();  //prevents duplicate feed
+    ellipse(300, 300, 100, 100);
 }
 
 function draw() {
-    ellipse(100, 100, 250, 250);
+
 }
