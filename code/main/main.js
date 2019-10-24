@@ -6,9 +6,14 @@ var fetch = require('node-fetch');
 //OpenWeather lubbock code = 5525577
 var state;  //(str) current state of mirror ("inactive", "home", or name of application in fullscreen);
 var weather_data;  //json of local weather data
-var c;
+var c;  //for video capture
+var din; //!font for header (DO NOT USE WITH CHROME)
 
-//buton globals
+
+async function preload() {
+    weather_data = await get_weather_data(5525577);
+    //din = loadFont('fonts/D-DIN.otf')
+}
 
 
 async function setup() {
@@ -17,55 +22,65 @@ async function setup() {
     c.size(1000,500);
     c.hide();  //prevents duplicate feed
 
-    weather_data = await get_weather_data(5525577);  //fetch weather data
 }
 
 
 function draw() {
     background(255)
     mirror_camera();
-    draw_weather(weather_data);
+    draw_header();
 }
 
 
-function draw_header () {}
+function draw_header () {
+    //textFont(din);
+
+    draw_weather();
+    draw_date();
+}
 
 
 function draw_clock() {}
 
 
-function draw_weather(data) {
+function draw_weather() {
+    data = weather_data;
     if (data != null) {  //workaround for javascript's fucking async bullshit
-        let f = Math.round(((parseFloat(data.main.temp)-273.15)*1.8)+32);
-        let degrees = f + '\xB0'
-        fill(255,255,255);
-        textSize(50);
-        textFont('Georgia');
-        text(degrees, 900, 55);
-    }
+        let f = Math.round(((parseFloat(data.main.temp)-273.15)*1.8)+32);  //calculate fahrenheit
+        let degrees = f + '\xB0'  //unicode symbol for degree
 
+        fill(255,255,255);
+        textSize(30);
+        textFont('Georgia');
+        textAlign(RIGHT);
+        text(degrees, 985, 35);
+    }
 }
 
 
 function get_weather_data(cityID) {
-    /*
-    var key = 'c716233d515c9bd6c5a36ad3cf719885';
-    fetch('http://api.openweathermap.org/data/2.5/weather?id=' + cityID + '&appid=' + key)
-    .then(function(resp) { return resp.json() }) // Convert data to json
-    .then(data => weather_data = data)
-    .catch(function() {
-      // catch any errors
-      console.log('error caught');
-    });*/
-
     var key = 'c716233d515c9bd6c5a36ad3cf719885';
     return fetch('http://api.openweathermap.org/data/2.5/weather?id=' + cityID + '&appid=' + key).then(response => response.json());
-    //console.log(json);
-    //weather_data = json;
   }
 
 
-function draw_date() {}
+function draw_date() {
+    let date = get_date();
+
+    fill(255,255,255);
+    textSize(30);
+    textFont('Georgia');
+    textAlign(CENTER);
+    text(date, 500, 35);
+}
+
+
+function get_date() {
+    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    var today  = new Date();
+
+    return today.toLocaleDateString("en-US", options);  //nicely formatted date
+}
 
 
 function draw_home() {
@@ -106,4 +121,3 @@ function detect_motion() {}
 
 
 //INITIALIZE OBJECTS
-setup();
