@@ -3,12 +3,16 @@ var fetch = require('node-fetch');
 // full screen size for apps is going to be 850 x 350
 
 //GLOBALS
-//OpenWeather lubbock code = 5525577
+//!OpenWeather lubbock code = 5525577
+//!newsapi key is 'a520cc4f10344f78a98d2371e6af098d'
 var state;  //(str) current state of mirror ("inactive", "home", or name of application in fullscreen);
 var current_weather_data;  //json of local weather data
 var weekly_weather_data
 var c;  //for video capture
 var din; //!font for header (DO NOT USE WITH CHROME)
+
+var button_initial_home;
+var button_weather_back;
 
 
 async function preload() {
@@ -20,6 +24,8 @@ async function preload() {
 
 async function setup() {
     createCanvas(1000, 500);
+
+    //camera functions
     c = createCapture(VIDEO);
     c.size(1000,500);
     c.hide();  //prevents duplicate feed
@@ -65,6 +71,9 @@ function draw_weather_fullscreen() {
     if ((weekly_weather_data != null) && (current_weather_data != null)) {
         draw_weather_fullscreen_data();
     }
+
+    fill(77,77,77);
+    ellipse(875, 462.5, 50, 50);
 }
 
 
