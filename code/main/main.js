@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+//const fetch = require('node-fetch');
 
 // full screen size for apps is going to be 850 x 350
 
@@ -11,11 +11,11 @@ let capture;
 
 function setup() {
     createCanvas(1000, 500);
-    capture = createCapture(VIDEO);
-    capture.size(1000, 500);
-    capture.hide();  //prevents duplicate feed
+    //capture = createCapture(VIDEO);
+    //capture.size(1000, 500);
+    //capture.hide();  //prevents duplicate feed
 
-    get_weather_data(5525577);
+    //get_weather_data(5525577);
 }
 
 
@@ -25,14 +25,18 @@ function draw() {
 
     //TODO: switch statement over state global to determine what to draw
     //draw_home();
-    draw_weather();
+    //draw_weather();
+    draw_clock();
 }
 
 
 function draw_header () {}
 
 
-function draw_clock() {}
+function draw_clock() {
+    fill(0);
+    cicle(0, 0, 100);
+}
 
 
 function draw_weather(weather_data) {
@@ -85,6 +89,7 @@ function draw_initial() {
 //CAMERA FUNCTIONS
 
 //Flips camera feed horizontally to mimic real mirror
+/*
 function mirror_camera() {
     translate(capture.width, 0);
     scale(-1, 1);
@@ -92,7 +97,7 @@ function mirror_camera() {
     translate(capture.width, 0);
     scale(-1, 1);
 }
-
+*/
 
 function zoom() {}
 
