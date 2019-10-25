@@ -3,7 +3,6 @@ var fetch = require('node-fetch');
 // full screen size for apps is going to be 850 x 350
 
 //GLOBALS
-//!OpenWeather lubbock code = 5525577
 //!newsapi key is 'a520cc4f10344f78a98d2371e6af098d'
 var state;  //(str) current state of mirror ("inactive", "home", or name of application in fullscreen);
 var current_weather_data;  //json of local weather data
@@ -11,13 +10,17 @@ var weekly_weather_data
 var c;  //for video capture
 var din; //!font for header (DO NOT USE WITH CHROME)
 
-var button_initial_home;
+//buttons
+var button_home_weather;
 var button_weather_back;
+
+var buttons;
 
 
 async function preload() {
     current_weather_data = await get_current_weather_data(5525577);
     weekly_weather_data = await get_weekly_weather_data(5525577);
+
     //!din = loadFont('fonts/D-DIN.otf')
 }
 
@@ -30,15 +33,49 @@ async function setup() {
     c.size(1000,500);
     c.hide();  //prevents duplicate feed
 
+    button_home_weather = createImg('test_button.png', 'alt');
+    button_home_weather.position(850, 437.5);
+    button_home_weather.mousePressed(button_home_weather_handler);
+
+    button_weather_back = createImg('test_button.png', 'alt');
+    button_weather_back.position(400, 437.5);
+    button_weather_back.mousePressed(button_weather_back_handler);
+
+    buttons = new Array();
+    buttons.push(
+        button_home_weather,
+        button_weather_back
+    );
+
+    console.log(buttons.length)
+
+    hide_all_buttons();
+    state = "home";
+    button_home_weather.show();
+    //button_home_weather = createImg('images/test_button.png', 'ok')
+
 }
 
 
 function draw() {
     //background(0,0,0);
     //mirror_camera();
+    console.log(state);
 
-    draw_weather_fullscreen();
-    draw_header()
+    switch(state) {
+        case "initial":
+            draw_initial();
+            break;
+        case "home":
+            draw_home();
+            break;
+        case "weather":
+            draw_weather_fullscreen();
+            break;
+        default:
+            console.log('default');
+            background(0,0,0);
+    }
 }
 
 
@@ -73,7 +110,8 @@ function draw_weather_fullscreen() {
     }
 
     fill(77,77,77);
-    ellipse(875, 462.5, 50, 50);
+    //ellipse(875, 462.5, 50, 50);
+    draw_header();
 }
 
 
@@ -160,7 +198,9 @@ function get_date() {
 
 
 function draw_home() {
-    fill(255, 255, 255);
+    mirror_camera();
+
+    /*fill(255, 255, 255);
     ellipse(125, 435, 75, 75);
     ellipse(250, 435, 75, 75);
     ellipse(375, 435, 75, 75);
@@ -169,12 +209,15 @@ function draw_home() {
     ellipse(750, 435, 75, 75);
 
     fill(77,77,77);
-    ellipse(875, 435, 75, 75);
+    ellipse(875, 435, 75, 75);*/
+
+    draw_header();
 }
 
 
 function draw_initial() {
-    ellipse(960,460,50,50);
+    mirror_camera();
+    draw_header();
 }
 
 
@@ -196,4 +239,25 @@ function zoom() {}
 function detect_motion() {}
 
 
-//INITIALIZE OBJECTS
+// ========== BUTTON HANDLERS ==========
+function hide_all_buttons() {
+    let i;
+    for (i = 0; i < buttons.length; i++) {
+        buttons[i].hide();
+    }
+}
+
+
+function button_home_weather_handler() {
+    hide_all_buttons();
+    console.log('going to fullscreen weather');
+    state = "weather"
+    button_weather_back.show();
+}
+
+
+function button_weather_back_handler() {
+    hide_all_buttons();
+    state = "home";
+    button_home_weather.show();
+}
