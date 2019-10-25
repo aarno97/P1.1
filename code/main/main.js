@@ -37,7 +37,8 @@ async function setup() {
     button_home_weather.position(850, 437.5);
     button_home_weather.mousePressed(button_home_weather_handler);
 
-    button_weather_back = createImg('test_button.png', 'alt');
+    button_weather_back = createImg('icon_back_circle.png', 'alt');
+    button_weather_back.size(75, 75);
     button_weather_back.position(400, 437.5);
     button_weather_back.mousePressed(button_weather_back_handler);
 
@@ -60,7 +61,7 @@ async function setup() {
 function draw() {
     //background(0,0,0);
     //mirror_camera();
-    console.log(state);
+    //console.log(state);
 
     switch(state) {
         case "initial":
@@ -73,7 +74,6 @@ function draw() {
             draw_weather_fullscreen();
             break;
         default:
-            console.log('default');
             background(0,0,0);
     }
 }
