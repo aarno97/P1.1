@@ -18,5 +18,5 @@ function setup() {
 
 function draw() {
     ellipse(500, 250, 100, 100);
-    p5.select('Calendar').position(100,100);
+    p5.select('Calendar').position(250, 250);
 }
