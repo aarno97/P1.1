@@ -10,9 +10,9 @@ class App {
 
 function setup() {
     createCanvas(1000, 500);
-    ellipse(300, 300, 100, 100);
+
 }
 
 function draw() {
-
+    ellipse(500, 250, 100, 100);
 }
