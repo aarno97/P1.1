@@ -18,6 +18,8 @@ var button_home_clock;
 var button_clock_back;
 var button_home_map;
 var button_map_back;
+var button_home_newsfeed;
+var button_newsfeed_back;
 
 var buttons;
 
@@ -85,6 +87,16 @@ async function setup() {
     button_map_back.position(475, 437.5);
     button_map_back.mousePressed(button_map_back_handler);
 
+    button_home_newsfeed = createImg('icon_circle_green.png', 'alt');
+    button_home_newsfeed.position(600, 437.5);
+    button_home_newsfeed.size(50,50);
+    button_home_newsfeed.mousePressed(button_home_newsfeed_handler);
+
+    button_newsfeed_back = createImg('icon_back_circle.png', 'alt');
+    button_newsfeed_back.size(50, 50);
+    button_newsfeed_back.position(475, 437.5);
+    button_newsfeed_back.mousePressed(button_newsfeed_back_handler);
+
     buttons = new Array();
     buttons.push(
         button_home_weather,
@@ -92,7 +104,9 @@ async function setup() {
         button_home_clock,
         button_clock_back,
         button_home_map,
-        button_map_back
+        button_map_back,
+        button_home_newsfeed,
+        button_newsfeed_back
     );
 
     console.log(buttons.length)
@@ -102,6 +116,7 @@ async function setup() {
     button_home_weather.show();
     button_home_clock.show();
     button_home_map.show();
+    button_home_newsfeed.show();
     //button_home_weather = createImg('images/test_button.png', 'ok')
 
     //clock setup
@@ -140,6 +155,9 @@ function draw() {
             break;
         case "map":
             draw_map();
+            break;
+        case "newsfeed":
+            draw_newsfeed();
             break;
         default:
             background(0);
@@ -397,6 +415,7 @@ function get_newsfeed_data() {
 
 
 function draw_newsfeed() {
+    noStroke();
     data = newsfeed_data;
 
     fill(1, 14, 36);
@@ -411,6 +430,8 @@ function draw_newsfeed() {
     if (newsfeed_data != null) {
         draw_news_stories(data);
     }
+
+    draw_header();
 }
 
 
@@ -514,6 +535,7 @@ function button_weather_back_handler() {
     button_home_weather.show();
     button_home_clock.show();
     button_home_map.show();
+    button_home_newsfeed.show();
 }
 
 
@@ -543,6 +565,22 @@ function button_home_map_handler() {
 function button_map_back_handler() {
     hide_all_buttons();
     state = "home";
+    button_home_weather.show();
+    button_home_clock.show();
+    button_home_map.show();
+    button_home_newsfeed.show()
+}
+
+function button_home_newsfeed_handler() {
+    hide_all_buttons();
+    console.log('going to fullscreen newsfeed');
+    state = "newsfeed";
+    button_newsfeed_back.show();
+}
+
+function button_newsfeed_back_handler() {
+    hide_all_buttons();
+    state = "home"
     button_home_weather.show();
     button_home_clock.show();
     button_home_map.show();
