@@ -15,29 +15,29 @@ function setup() {
 function draw() {
     State = "Calendar";
     rect(75, 75, 850, 350);
-    switch (State) {
-        case "Calendar":
-            Image = Calendar;
-            break;
-        case "Move":
-            Image = Move;
-            break;
-        case "Exercise":
-            Image = Exercise;
-            break;
-        case "Stand":
-            Image = Stand;
-            break;
-        case "Step":
-            Image = Step;
-            break;
-        case "Sleep":
-            Image = Sleep;
-            break;
-        default:
-            Image = Calendar;
-            break;
-    }
+    // switch (String(State)) {
+    //     case "Calendar":
+    //         Image = Calendar;
+    //         break;
+    //     case "Move":
+    //         Image = Move;
+    //         break;
+    //     case "Exercise":
+    //         Image = Exercise;
+    //         break;
+    //     case "Stand":
+    //         Image = Stand;
+    //         break;
+    //     case "Step":
+    //         Image = Step;
+    //         break;
+    //     case "Sleep":
+    //         Image = Sleep;
+    //         break;
+    //     default:
+    //         Image = Calendar;
+    //         break;
+    // }
     if (Image != null) {
         image(Image, 75, 75, 850, 350);
     }
