@@ -42,7 +42,8 @@ async function setup() {
     c.size(1000,500);
     c.hide();  //prevents duplicate feed
 
-    button_home_weather = createImg('test_button.png', 'alt');
+    button_home_weather = createImg('icon_circle_red.png', 'alt');
+    button_home_weather.size(75,75);
     button_home_weather.position(850, 437.5);
     button_home_weather.mousePressed(button_home_weather_handler);
 
@@ -290,6 +291,7 @@ function draw_time() {
     var hour = now.getHours();
     var minute = now.getMinutes();
     var timeDay = ' a.m.';
+    var zero = '';
 
     if (hour >= 12 && hour < 24) {
         timeDay = ' p.m.';
@@ -300,11 +302,15 @@ function draw_time() {
         hour += 12;
     }
 
+    if (minute < 10) {
+        zero = '0';
+    }
+
     fill(255,255,255);
     textSize(30);
     textFont('Georgia');
     textAlign(LEFT);
-    text(hour + ':' + minute + timeDay, 15, 35);
+    text(hour + ':' + zero + minute + timeDay, 15, 35);
 }
 
 function draw_home() {
