@@ -17,6 +17,6 @@ function setup() {
 }
 
 function draw() {
-    ellipse(500, 250, 200, 200);
-    p5.select("Calendar", ["CallCalendar.html"]).position(500, 250);
+    ellipse(500, 250, 300, 200);
+    // p5.select("Calendar", ["CallCalendar.html"]).position(500, 250);
 }
