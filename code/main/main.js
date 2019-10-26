@@ -16,7 +16,8 @@ var button_home_weather;
 var button_weather_back;
 var button_home_clock;
 var button_clock_back;
-var button_home_newsfeed;
+var button_home_map;
+var button_map_back;
 
 var buttons;
 
@@ -27,6 +28,15 @@ var secondsRadius;
 var minutesRadius;
 var hoursRadius;
 var clockDiameter;
+
+
+//map parameters
+var default_map_img;
+var school_map_img;
+var work_map_img;
+var default_map = false;
+var school_map = false;
+var work_map = false;
 
 async function preload() {
     current_weather_data = await get_current_weather_data(5525577);
@@ -48,13 +58,13 @@ async function setup() {
 
     //button setup
     button_home_weather = createImg('icon_circle_red.png', 'alt');
-    button_home_weather.size(75,75);
+    button_home_weather.size(50,50);
     button_home_weather.position(850, 437.5);
     button_home_weather.mousePressed(button_home_weather_handler);
 
     button_weather_back = createImg('icon_back_circle.png', 'alt');
-    button_weather_back.size(75, 75);
-    button_weather_back.position(400, 437.5);
+    button_weather_back.size(50, 50);
+    button_weather_back.position(475, 437.5);
     button_weather_back.mousePressed(button_weather_back_handler);
 
     button_home_clock = createImg('test_button.png', 'alt');
@@ -62,19 +72,18 @@ async function setup() {
     button_home_clock.mousePressed(button_home_clock_handler);
 
     button_clock_back = createImg('icon_back_circle.png', 'alt');
-    button_clock_back.size(75, 75);
-    button_clock_back.position(400, 437.5);
+    button_clock_back.size(50, 50);
+    button_clock_back.position(475, 437.5);
     button_clock_back.mousePressed(button_clock_back_handler);
 
-    button_home_newsfeed = createImg('icon_circle_green.png', 'alt');
-    button_home_newsfeed.size(50,50);
-    button_home_newsfeed.position(600, 437.5);
-    button_home_newsfeed.mousePressed(button_home_newsfeed_handler)
+    button_home_map = createImg('test_button.png', 'alt');
+    button_home_map.position(500, 437.5);
+    button_home_map.mousePressed(button_home_map_handler);
 
-    button_newsfeed_back = createImg('icon_back_circle.png')
-    button_newsfeed_back.size(50, 50);
-    button_newsfeed_back.position(475, 437.5)
-    button_newsfeed_back.mousePressed(button_newsfeed_back_handler)
+    button_map_back = createImg('icon_back_circle.png', 'alt');
+    button_map_back.size(50, 50);
+    button_map_back.position(475, 437.5);
+    button_map_back.mousePressed(button_map_back_handler);
 
     buttons = new Array();
     buttons.push(
@@ -82,17 +91,18 @@ async function setup() {
         button_weather_back,
         button_home_clock,
         button_clock_back,
-        button_home_newsfeed,
-        button_newsfeed_back
+        button_home_map,
+        button_map_back
     );
 
     console.log(buttons.length)
 
     hide_all_buttons();
     state = "home";
-    button_home_clock.show()
-    button_home_newsfeed.show()
-    button_home_weather.show()
+    button_home_weather.show();
+    button_home_clock.show();
+    button_home_map.show();
+    //button_home_weather = createImg('images/test_button.png', 'ok')
 
     //clock setup
     var radius = min(850, 350) / 2;
@@ -103,6 +113,12 @@ async function setup() {
     
     cx = width / 2;
     cy = height / 2;
+
+    //map setup
+    default_map_img = loadImage('default_map.png');
+    school_map_img = loadImage('school_map.png');
+    work_map_img = loadImage('work_map.png');
+    default_map = true;
 }
 
 
@@ -122,8 +138,8 @@ function draw() {
         case "clock":
             draw_clock();
             break;
-        case "newsfeed":
-            draw_newsfeed();
+        case "map":
+            draw_map();
             break;
         default:
             background(0);
@@ -133,12 +149,13 @@ function draw() {
 
 function draw_header () {
     //textFont(din);
-
+    noStroke();
     draw_weather();
     draw_date();
     draw_time();
 }
 
+//========== CLOCK FUNCTIONS ==========
 
 function draw_clock() {
     fill(1, 14, 36);
@@ -196,6 +213,44 @@ function draw_clock() {
     draw_header();
 }
 
+//========== MAP FUNCTIONS ==========
+
+function draw_map() {
+    if ((mouseX >= 485 && mouseX <= 585) && (mouseY >= 370 && mouseY <= 420) && mouseIsPressed) {
+        default_map = false;
+        school_map = true;
+        work_map = false;        
+    }
+    else if ((mouseX >= 635 && mouseX <= 735) && (mouseY >= 370 && mouseY <= 420) && mouseIsPressed) {
+        default_map = false;
+        school_map = false;
+        work_map = true;        
+    }
+
+    if (default_map) {
+        image(default_map_img, 75, 75, 850, 350);
+    }
+    else if (school_map) {
+        image(school_map_img, 75, 75, 850, 350);
+    }
+    else if (work_map) {
+        image(work_map_img, 75, 75, 850, 350);
+    }
+
+    fill(0);
+    noStroke();
+    rect(485, 370, 100, 50);
+    rect(635, 370, 100, 50);
+
+    fill(255);
+    textAlign(CENTER, CENTER);
+    textSize(25);
+    textFont('Courier New');    
+    text('SCHOOL', 535, 395);
+    text('WORK', 685, 395);
+
+    draw_header();
+}
 
 //========== WEATHER FUNCTIONS ==========
 
@@ -303,12 +358,14 @@ function get_date() {
     return today.toLocaleDateString("en-US", options);  //nicely formatted date
 }
 
+// ========== TIME FUNCTIONS ==========
 
 function draw_time() {
     var now = new Date();
     var hour = now.getHours();
     var minute = now.getMinutes();
     var timeDay = ' a.m.';
+    var zero = '';
 
     if (hour >= 12 && hour < 24) {
         timeDay = ' p.m.';
@@ -319,11 +376,15 @@ function draw_time() {
         hour += 12;
     }
 
+    if (minute < 10) {
+        zero = '0';
+    }
+
     fill(255,255,255);
     textSize(30);
     textFont('Georgia');
     textAlign(LEFT);
-    text(hour + ':' + minute + timeDay, 15, 35);
+    text(hour + ':' + zero + minute + timeDay, 15, 35);
 }
 
 // ========== NEWSFEED FUNCTIONS ==========
@@ -452,7 +513,7 @@ function button_weather_back_handler() {
     state = "home";
     button_home_weather.show();
     button_home_clock.show();
-    button_home_newsfeed.show()
+    button_home_map.show();
 }
 
 
@@ -468,21 +529,22 @@ function button_clock_back_handler() {
     state = "home";
     button_home_weather.show();
     button_home_clock.show();
+    button_home_map.show();
     button_home_newsfeed.show()
 }
 
-
-function button_home_newsfeed_handler() {
-    hide_all_buttons()
-    state = "newsfeed"
-    button_newsfeed_back.show()
+function button_home_map_handler() {
+    hide_all_buttons();
+    console.log('going to fullscreen map');
+    state = "map";
+    button_map_back.show();
 }
 
-
-function button_newsfeed_back_handler() {
-    hide_all_buttons()
-    state = "home"
+function button_map_back_handler() {
+    hide_all_buttons();
+    state = "home";
     button_home_weather.show();
     button_home_clock.show();
-    button_home_newsfeed.show();
+    button_home_map.show();
+    button_home_newsfeed.show()
 }
