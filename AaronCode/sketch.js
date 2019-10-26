@@ -1,22 +1,10 @@
-import * as p5 from '/Users/aaronarnold/Library/Mobile Documents/com~apple~CloudDocs/7th Semester/Human Computer Interaction/p5';
-
-class App {
-    constructor(name, icon, pos) {
-        this.name = name;
-        this.icon = icon;
-        this.pos = pos;
-    }
-    draw_app_icon() {};
-    draw_app_fullscreen() {};
-}
-
 function setup() {
     createCanvas(1000, 500);
-    background(0,0,0);
+    background(228, 229, 240);
 
 }
 
 function draw() {
-    ellipse(500, 250, 300, 200);
-    // p5.select("Calendar", ["CallCalendar.html"]).position(500, 250);
+    rect(75, 75, 850, 350);
+
 }
