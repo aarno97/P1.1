@@ -31,7 +31,6 @@ var minutesRadius;
 var hoursRadius;
 var clockDiameter;
 
-
 //map parameters
 var default_map_img;
 var school_map_img;
@@ -228,6 +227,7 @@ function draw_clock() {
     text('10', 375, 180);
     text('11', 430, 125);
 
+    noStroke();
     draw_header();
 }
 
@@ -273,6 +273,7 @@ function draw_map() {
 //========== WEATHER FUNCTIONS ==========
 
 function draw_weather_fullscreen() {
+    noStroke();
     //background(33,33,33);
 
     fill(1, 14, 36);
@@ -310,7 +311,6 @@ function draw_weather_fullscreen_data() {
     draw_weather_window(day5, 840, 150);
 }
 
-
 function draw_weather_window(data, x, y) {
     fill(255,255,255);
     textSize(30);
@@ -323,12 +323,10 @@ function draw_weather_window(data, x, y) {
     text(degrees, x, y);
 }
 
-
 function get_weekly_weather_data(cityID) {
     var key = 'c716233d515c9bd6c5a36ad3cf719885';
     return fetch('http://api.openweathermap.org/data/2.5/forecast?id=' + cityID + '&appid=' + key).then(response => response.json())
 }
-
 
 function draw_weather() {
     data = current_weather_data;
@@ -344,19 +342,16 @@ function draw_weather() {
     }
 }
 
-
 function to_fahrenheit(k) {
     return Math.round(((parseFloat(k)-273.15)*1.8)+32);
 }
-
 
 function get_current_weather_data(cityID) {
     var key = 'c716233d515c9bd6c5a36ad3cf719885';
     return fetch('http://api.openweathermap.org/data/2.5/weather?id=' + cityID + '&appid=' + key).then(response => response.json());
   }
 
-
-// ========== DATE + TIME FUNCTIONS ==========
+// ========== DATE FUNCTIONS ==========
 
 function draw_date() {
     let date = get_date();
@@ -367,7 +362,6 @@ function draw_date() {
     textAlign(CENTER);
     text(date, 500, 35);
 }
-
 
 function get_date() {
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -407,12 +401,10 @@ function draw_time() {
 
 // ========== NEWSFEED FUNCTIONS ==========
 
-
 function get_newsfeed_data() {
     let key = 'a520cc4f10344f78a98d2371e6af098d';
     return fetch('https://newsapi.org/v2/top-headlines?country=us&apiKey=' + key).then(result => result.json());
 }
-
 
 function draw_newsfeed() {
     noStroke();
@@ -434,7 +426,6 @@ function draw_newsfeed() {
     draw_header();
 }
 
-
 function draw_news_stories(data) {
     var story1 = data.articles[0];
     var story2 = data.articles[1];
@@ -444,7 +435,6 @@ function draw_news_stories(data) {
     draw_story(story2, 95, 206.66)
     draw_story(story3, 95, 323.33)
 }
-
 
 function draw_story(story, titlex, titley) {
     let xbound = titlex + 715
@@ -456,16 +446,17 @@ function draw_story(story, titlex, titley) {
     textFont('Helvetica');
     textAlign(CENTER);
     text(story.title, titlex, titley, xbound, ybound);
+    //console.log(titlex, titley, xbound, ybound);
 
     textStyle(ITALIC);
     textFont('Georgia')
     textSize(12);
     text(story.description, titlex, titley+65, xbound, titley+137.6);
+    //console.log(titlex, titley+65, xbound, titley+137.6);
 
     textStyle(NORMAL);
     
 }
-
 
 function draw_home() {
     mirror_camera();
@@ -484,12 +475,10 @@ function draw_home() {
     draw_header();
 }
 
-
 function draw_initial() {
     mirror_camera();
     draw_header();
 }
-
 
 // ========== CAMERA FUNCTIONS ==========
 
@@ -520,14 +509,12 @@ function hide_all_buttons() {
     }
 }
 
-
 function button_home_weather_handler() {
     hide_all_buttons();
     console.log('going to fullscreen weather');
     state = "weather";
     button_weather_back.show();
 }
-
 
 function button_weather_back_handler() {
     hide_all_buttons();
@@ -537,7 +524,6 @@ function button_weather_back_handler() {
     button_home_map.show();
     button_home_newsfeed.show();
 }
-
 
 function button_home_clock_handler() {
     hide_all_buttons();
@@ -552,7 +538,7 @@ function button_clock_back_handler() {
     button_home_weather.show();
     button_home_clock.show();
     button_home_map.show();
-    button_home_newsfeed.show()
+    button_home_newsfeed.show();
 }
 
 function button_home_map_handler() {
@@ -568,7 +554,7 @@ function button_map_back_handler() {
     button_home_weather.show();
     button_home_clock.show();
     button_home_map.show();
-    button_home_newsfeed.show()
+    button_home_newsfeed.show();
 }
 
 function button_home_newsfeed_handler() {
@@ -580,9 +566,9 @@ function button_home_newsfeed_handler() {
 
 function button_newsfeed_back_handler() {
     hide_all_buttons();
-    state = "home"
+    state = "home";
     button_home_weather.show();
     button_home_clock.show();
     button_home_map.show();
-    button_home_newsfeed.show()
+    button_home_newsfeed.show();
 }
