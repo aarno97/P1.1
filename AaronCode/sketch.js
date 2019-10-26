@@ -13,13 +13,13 @@ function preload() {
 function setup() {
     createCanvas(1000, 500);
     background(228, 229, 240);
-    Calendar = loadImage("Calendar.png");
-    Move = loadImage("Move Goal.png");
-    Sleep = loadImage("Stand Goal.png");
-    Exercise = loadImage("Exercise Goal.png");
-    Stand = loadImage("Stand Goal.png");
-    Step = loadImage("Step Goal.png");
-    Image = loadImage("Step Goal.png");
+    Calendar = loadImage('Calendar.png');
+    Move = loadImage('Move Goal.png');
+    Sleep = loadImage('Stand Goal.png');
+    Exercise = loadImage('Exercise Goal.png');
+    Stand = loadImage('Stand Goal.png');
+    Step = loadImage('Step Goal.png');
+    Image = loadImage('Step Goal.png');
 }
 
 function draw() {
