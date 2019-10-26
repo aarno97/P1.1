@@ -13,9 +13,18 @@ var din; //!font for header (DO NOT USE WITH CHROME)
 //buttons
 var button_home_weather;
 var button_weather_back;
+var button_home_clock;
+var button_clock_back;
 
 var buttons;
 
+//clock parameters
+var cx; 
+var cy;
+var secondsRadius;
+var minutesRadius;
+var hoursRadius;
+var clockDiameter;
 
 async function preload() {
     current_weather_data = await get_current_weather_data(5525577);
@@ -43,10 +52,21 @@ async function setup() {
     button_weather_back.position(400, 437.5);
     button_weather_back.mousePressed(button_weather_back_handler);
 
+    button_home_clock = createImg('test_button.png', 'alt');
+    button_home_clock.position(200, 437.5);
+    button_home_clock.mousePressed(button_home_clock_handler);
+
+    button_clock_back = createImg('icon_back_circle.png', 'alt');
+    button_clock_back.size(75, 75);
+    button_clock_back.position(400, 437.5);
+    button_clock_back.mousePressed(button_clock_back_handler);
+
     buttons = new Array();
     buttons.push(
         button_home_weather,
-        button_weather_back
+        button_weather_back,
+        button_home_clock,
+        button_clock_back
     );
 
     console.log(buttons.length)
@@ -54,13 +74,23 @@ async function setup() {
     hide_all_buttons();
     state = "home";
     button_home_weather.show();
+    button_home_clock.show();
     //button_home_weather = createImg('images/test_button.png', 'ok')
 
+    //clock setup
+    var radius = min(850, 350) / 2;
+    secondsRadius = radius * 0.72;
+    minutesRadius = radius * 0.60;
+    hoursRadius = radius * 0.50;
+    clockDiameter = radius * 1.8;
+    
+    cx = width / 2;
+    cy = height / 2;
 }
 
 
 function draw() {
-    //background(0,0,0);
+    background(63);
     //mirror_camera();
     //console.log(state);
 
@@ -74,8 +104,11 @@ function draw() {
         case "weather":
             draw_weather_fullscreen();
             break;
+        case "clock":
+            draw_clock();
+            break;
         default:
-            background(0,0,0);
+            background(0);
     }
 }
 
@@ -85,16 +118,71 @@ function draw_header () {
 
     draw_weather();
     draw_date();
+    draw_time();
 }
 
 
-function draw_clock() {}
+function draw_clock() {
+    fill(1, 14, 36);
+    rect(75, 75, 850, 350);
+    // Draw the clock background
+    fill(80);
+    noStroke();
+    ellipse(cx, cy, clockDiameter, clockDiameter);
+  
+    // Angles for sin() and cos() start at 3 o'clock;
+    // subtract HALF_PI to make them start at the top
+    var s = map(second(), 0, 60, 0, TWO_PI) - HALF_PI;
+    var m = map(minute() + norm(second(), 0, 60), 0, 60, 0, TWO_PI) - HALF_PI; 
+    var h = map(hour() + norm(minute(), 0, 60), 0, 24, 0, TWO_PI * 2) - HALF_PI;
+
+    // Draw the hands of the clock
+    stroke(255);
+    strokeWeight(1);
+    line(cx, cy, cx + cos(s) * secondsRadius, cy + sin(s) * secondsRadius);
+    strokeWeight(2);
+    line(cx, cy, cx + cos(m) * minutesRadius, cy + sin(m) * minutesRadius);
+    strokeWeight(4);
+    line(cx, cy, cx + cos(h) * hoursRadius, cy + sin(h) * hoursRadius);
+
+    // Draw the minute ticks
+    strokeWeight(2);
+    beginShape(POINTS);
+    for (var a = 0; a < 360; a += 6) {
+    var angle = radians(a);
+    var x = cx + cos(angle) * secondsRadius;
+    var y = cy + sin(angle) * secondsRadius;
+    vertex(x, y);
+    }
+    
+    endShape();
+
+    fill(255);
+    textAlign(CENTER, CENTER);
+    textSize(25);
+    textFont('Courier New');
+    
+    text('12', 500, 110);
+    text('1', 570, 125);
+    text('2', 625, 180);
+    text('3', 640, 250);
+    text('4', 625, 320);
+    text('5', 570, 375);
+    text('6', 500, 395);
+    text('7', 430, 375);
+    text('8', 375, 320);
+    text('9', 360, 250);
+    text('10', 375, 180);
+    text('11', 430, 125);
+
+    draw_header();
+}
 
 
 //========== WEATHER FUNCTIONS ==========
 
 function draw_weather_fullscreen() {
-    background(33,33,33);
+    //background(33,33,33);
 
     fill(1, 14, 36);
     rect(75, 75, 850, 350);
@@ -197,6 +285,28 @@ function get_date() {
     return today.toLocaleDateString("en-US", options);  //nicely formatted date
 }
 
+// time function
+function draw_time() {
+    var now = new Date();
+    var hour = now.getHours();
+    var minute = now.getMinutes();
+    var timeDay = ' a.m.';
+
+    if (hour >= 12 && hour < 24) {
+        timeDay = ' p.m.';
+    }
+
+    hour %= 12;
+    if (hour == 0) {
+        hour += 12;
+    }
+
+    fill(255,255,255);
+    textSize(30);
+    textFont('Georgia');
+    textAlign(LEFT);
+    text(hour + ':' + minute + timeDay, 15, 35);
+}
 
 function draw_home() {
     mirror_camera();
@@ -225,6 +335,7 @@ function draw_initial() {
 // ========== CAMERA FUNCTIONS ==========
 
 //Flips camera feed horizontally to mimic real mirror
+
 function mirror_camera() {
     translate(c.width, 0);
     scale(-1, 1);
@@ -252,7 +363,7 @@ function hide_all_buttons() {
 function button_home_weather_handler() {
     hide_all_buttons();
     console.log('going to fullscreen weather');
-    state = "weather"
+    state = "weather";
     button_weather_back.show();
 }
 
@@ -261,4 +372,19 @@ function button_weather_back_handler() {
     hide_all_buttons();
     state = "home";
     button_home_weather.show();
+    button_home_clock.show();
+}
+
+function button_home_clock_handler() {
+    hide_all_buttons();
+    console.log('going to fullscreen clock');
+    state = "clock";
+    button_clock_back.show();
+}
+
+function button_clock_back_handler() {
+    hide_all_buttons();
+    state = "home";
+    button_home_weather.show();
+    button_home_clock.show();
 }
