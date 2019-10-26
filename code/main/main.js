@@ -5,8 +5,9 @@ var fetch = require('node-fetch');
 //GLOBALS
 //!newsapi key is 'a520cc4f10344f78a98d2371e6af098d'
 var state;  //(str) current state of mirror ("inactive", "home", or name of application in fullscreen);
-var current_weather_data;  //json of local weather data
+var current_weather_data  //json of local weather data
 var weekly_weather_data
+var newsfeed_data
 var c;  //for video capture
 var din; //!font for header (DO NOT USE WITH CHROME)
 
@@ -15,6 +16,7 @@ var button_home_weather;
 var button_weather_back;
 var button_home_clock;
 var button_clock_back;
+var button_home_newsfeed;
 
 var buttons;
 
@@ -42,6 +44,9 @@ async function setup() {
     c.size(1000,500);
     c.hide();  //prevents duplicate feed
 
+    newsfeed_data = await get_newsfeed_data();
+
+    //button setup
     button_home_weather = createImg('icon_circle_red.png', 'alt');
     button_home_weather.size(75,75);
     button_home_weather.position(850, 437.5);
@@ -61,21 +66,33 @@ async function setup() {
     button_clock_back.position(400, 437.5);
     button_clock_back.mousePressed(button_clock_back_handler);
 
+    button_home_newsfeed = createImg('icon_circle_green.png', 'alt');
+    button_home_newsfeed.size(50,50);
+    button_home_newsfeed.position(600, 437.5);
+    button_home_newsfeed.mousePressed(button_home_newsfeed_handler)
+
+    button_newsfeed_back = createImg('icon_back_circle.png')
+    button_newsfeed_back.size(50, 50);
+    button_newsfeed_back.position(475, 437.5)
+    button_newsfeed_back.mousePressed(button_newsfeed_back_handler)
+
     buttons = new Array();
     buttons.push(
         button_home_weather,
         button_weather_back,
         button_home_clock,
-        button_clock_back
+        button_clock_back,
+        button_home_newsfeed,
+        button_newsfeed_back
     );
 
     console.log(buttons.length)
 
     hide_all_buttons();
     state = "home";
-    button_home_weather.show();
-    button_home_clock.show();
-    //button_home_weather = createImg('images/test_button.png', 'ok')
+    button_home_clock.show()
+    button_home_newsfeed.show()
+    button_home_weather.show()
 
     //clock setup
     var radius = min(850, 350) / 2;
@@ -91,8 +108,6 @@ async function setup() {
 
 function draw() {
     background(63);
-    //mirror_camera();
-    //console.log(state);
 
     switch(state) {
         case "initial":
@@ -106,6 +121,9 @@ function draw() {
             break;
         case "clock":
             draw_clock();
+            break;
+        case "newsfeed":
+            draw_newsfeed();
             break;
         default:
             background(0);
@@ -265,7 +283,7 @@ function get_current_weather_data(cityID) {
   }
 
 
-// ========== DATE FUNCTIONS ==========
+// ========== DATE + TIME FUNCTIONS ==========
 
 function draw_date() {
     let date = get_date();
@@ -285,7 +303,7 @@ function get_date() {
     return today.toLocaleDateString("en-US", options);  //nicely formatted date
 }
 
-// time function
+
 function draw_time() {
     var now = new Date();
     var hour = now.getHours();
@@ -307,6 +325,65 @@ function draw_time() {
     textAlign(LEFT);
     text(hour + ':' + minute + timeDay, 15, 35);
 }
+
+// ========== NEWSFEED FUNCTIONS ==========
+
+
+function get_newsfeed_data() {
+    let key = 'a520cc4f10344f78a98d2371e6af098d';
+    return fetch('https://newsapi.org/v2/top-headlines?country=us&apiKey=' + key).then(result => result.json());
+}
+
+
+function draw_newsfeed() {
+    data = newsfeed_data;
+
+    fill(1, 14, 36);
+    rect(75, 75, 850, 350);
+
+    //divide into image and title section
+    stroke(255,255,255);
+    //line(270, 75, 270, 425);
+    line (75, 191.66, 925, 191.66);
+    line(75, 308.33, 925, 308.33);
+
+    if (newsfeed_data != null) {
+        draw_news_stories(data);
+    }
+}
+
+
+function draw_news_stories(data) {
+    var story1 = data.articles[0];
+    var story2 = data.articles[1];
+    var story3 = data.articles[2];
+
+    draw_story(story1, 95, 90);
+    draw_story(story2, 95, 206.66)
+    draw_story(story3, 95, 323.33)
+}
+
+
+function draw_story(story, titlex, titley) {
+    let xbound = titlex + 715
+    let ybound = titley + 20
+
+    fill(255,255,255);
+    textSize(20);
+    textStyle(BOLD);
+    textFont('Helvetica');
+    textAlign(CENTER);
+    text(story.title, titlex, titley, xbound, ybound);
+
+    textStyle(ITALIC);
+    textFont('Georgia')
+    textSize(12);
+    text(story.description, titlex, titley+65, xbound, titley+137.6);
+
+    textStyle(NORMAL);
+    
+}
+
 
 function draw_home() {
     mirror_camera();
@@ -334,8 +411,8 @@ function draw_initial() {
 
 // ========== CAMERA FUNCTIONS ==========
 
-//Flips camera feed horizontally to mimic real mirror
 
+//Flips camera feed horizontally to mimic real mirror
 function mirror_camera() {
     translate(c.width, 0);
     scale(-1, 1);
@@ -352,6 +429,8 @@ function detect_motion() {}
 
 
 // ========== BUTTON HANDLERS ==========
+
+
 function hide_all_buttons() {
     let i;
     for (i = 0; i < buttons.length; i++) {
@@ -373,7 +452,9 @@ function button_weather_back_handler() {
     state = "home";
     button_home_weather.show();
     button_home_clock.show();
+    button_home_newsfeed.show()
 }
+
 
 function button_home_clock_handler() {
     hide_all_buttons();
@@ -387,4 +468,21 @@ function button_clock_back_handler() {
     state = "home";
     button_home_weather.show();
     button_home_clock.show();
+    button_home_newsfeed.show()
+}
+
+
+function button_home_newsfeed_handler() {
+    hide_all_buttons()
+    state = "newsfeed"
+    button_newsfeed_back.show()
+}
+
+
+function button_newsfeed_back_handler() {
+    hide_all_buttons()
+    state = "home"
+    button_home_weather.show();
+    button_home_clock.show();
+    button_home_newsfeed.show();
 }
