@@ -1,4 +1,14 @@
-let Calendar, State, Move, Sleep, Exercise, Stand, Step, Image;
+let Calendar;
+let Move;
+let Sleep;
+let Exercise;
+let Stand;
+let Step;
+let Image;
+
+function preload() {
+
+}
 
 function setup() {
     createCanvas(1000, 500);
@@ -13,32 +23,31 @@ function setup() {
 }
 
 function draw() {
-    State = "Calendar";
+    let State = "Calendar";
+    image(Calendar, 0, 0);
     rect(75, 75, 850, 350);
-    // switch (String(State)) {
-    //     case "Calendar":
-    //         Image = Calendar;
-    //         break;
-    //     case "Move":
-    //         Image = Move;
-    //         break;
-    //     case "Exercise":
-    //         Image = Exercise;
-    //         break;
-    //     case "Stand":
-    //         Image = Stand;
-    //         break;
-    //     case "Step":
-    //         Image = Step;
-    //         break;
-    //     case "Sleep":
-    //         Image = Sleep;
-    //         break;
-    //     default:
-    //         Image = Calendar;
-    //         break;
-    // }
-    if (Image != null) {
-        image(Image, 75, 75, 850, 350);
+    switch (State) {
+        case "Calendar":
+            Image = Calendar;
+            break;
+        case "Move":
+            Image = Move;
+            break;
+        case "Exercise":
+            Image = Exercise;
+            break;
+        case "Stand":
+            Image = Stand;
+            break;
+        case "Step":
+            Image = Step;
+            break;
+        case "Sleep":
+            Image = Sleep;
+            break;
+        default:
+            Image = Calendar;
+            break;
     }
+    image(Image, 75, 75, 850, 350);
 }
