@@ -154,7 +154,7 @@ function draw() {
             break;
         case "home":
             clockButton = true;
-            timerButton = false;            
+            timerButton = false;
             startButton = false;
             timer = 60;
             draw_home();
@@ -541,25 +541,23 @@ function draw_news_stories(data) {
 }
 
 function draw_story(story, titlex, titley) {
-    let xbound = titlex + 715
-    let ybound = titley + 20
+    noStroke();
+    //let xbound = titlex + 715
+    //let ybound = titley + 20
 
     fill(255,255,255);
     textSize(20);
-    textStyle(BOLD);
-    textFont('Helvetica');
-    textAlign(CENTER);
-    text(story.title, titlex, titley, xbound, ybound);
-    //console.log(titlex, titley, xbound, ybound);
+    //textStyle(BOLD);
+    textFont('Georgia');
+    textAlign(CENTER, TOP);
+    text(story.title, titlex, titley, titlex + 715, 20);
 
-    textStyle(ITALIC);
+    //textStyle(ITALIC);
     textFont('Georgia')
     textSize(12);
-    text(story.description, titlex, titley+65, xbound, titley+137.6);
-    //console.log(titlex, titley+65, xbound, titley+137.6);
+    text(story.description, titlex, titley+65, titlex + 715, 20);
 
     textStyle(NORMAL);
-    
 }
 
 function draw_home() {
