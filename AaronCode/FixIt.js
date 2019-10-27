@@ -4,6 +4,12 @@ let Move;
 let Sleep;
 let Stand;
 let Step;
+let State = 'Calendar';
+let ExerButton;
+let MovButton;
+let SleeButton;
+let StanButton;
+let SteButton;
 
 function setup() {
     createCanvas(1000,500);
@@ -14,10 +20,26 @@ function setup() {
     Sleep = loadImage('Sleep Goal.png');
     Stand = loadImage('Stand Goal.png');
     Step = loadImage('Step Goal.png');
+    ExerButton = createButton('Exercise Results');
+    ExerButton.position(75,50);
+    ExerButton.mousePressed(ExerciseButton);
+    MovButton = createButton('Move Results');
+    MovButton.position(225, 50);
+    MovButton.mousePressed(MoveButton);
+    SleeButton = createButton('Sleep Results');
+    SleeButton.position(425, 50);
+    SleeButton.mousePressed(SleepButton);
+    StanButton = createButton('Stand Results');
+    StanButton.position(700, 50);
+    StanButton.mousePressed(StandButton);
+    SteButton = createButton('Step Results');
+    SteButton.position(850, 50);
+    SteButton.mousePressed(StepButton)
 }
 
 function draw() {
-    let i = 'Step';
+    background(228, 229, 240);
+    let i = State;
     if(i === 'Calendar') {
         image(Calendar, 75, 75, 850, 350);
     } else if(i === 'Exercise') {
@@ -33,3 +55,22 @@ function draw() {
     }
 }
 
+function ExerciseButton() {
+    State = 'Exercise';
+}
+
+function MoveButton() {
+    State = 'Move';
+}
+
+function SleepButton() {
+    State = 'Sleep';
+}
+
+function StandButton() {
+    State = 'Stand';
+}
+
+function StepButton() {
+    State = 'Step';
+}
