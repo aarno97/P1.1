@@ -30,6 +30,13 @@ var secondsRadius;
 var minutesRadius;
 var hoursRadius;
 var clockDiameter;
+var clockButton = true;
+var timerButton = false;
+var startButton = false;
+var timer;
+var timerHour;
+var timerMinute;
+var timerSecond;
 
 //map parameters
 var default_map_img;
@@ -128,6 +135,8 @@ async function setup() {
     cx = width / 2;
     cy = height / 2;
 
+    timer = 60;
+
     //map setup
     default_map_img = loadImage('default_map.png');
     school_map_img = loadImage('school_map.png');
@@ -138,19 +147,23 @@ async function setup() {
 
 function draw() {
     background(63);
-
+    noStroke();
     switch(state) {
         case "initial":
             draw_initial();
             break;
         case "home":
+            clockButton = true;
+            timerButton = false;            
+            startButton = false;
+            timer = 60;
             draw_home();
             break;
         case "weather":
             draw_weather_fullscreen();
             break;
         case "clock":
-            draw_clock();
+            draw_clock_app();
             break;
         case "map":
             draw_map();
@@ -174,9 +187,56 @@ function draw_header () {
 
 //========== CLOCK FUNCTIONS ==========
 
-function draw_clock() {
+
+function draw_clock_app() {
+    // full screen background
     fill(1, 14, 36);
+    noStroke();
     rect(75, 75, 850, 350);
+    
+    if ((mouseX >= 365 && mouseX <= 635) && (mouseY >= 100 && mouseY <= 150) && mouseIsPressed) {
+        clockButton = true;
+        timerButton = false;
+        startButton = false;
+        timer = 60;
+    }
+    
+    else if ((mouseX >= 645 && mouseX <= 915) && (mouseY >= 100 && mouseY <= 150) && mouseIsPressed) {
+        clockButton = false;
+        timerButton = true;
+    }
+
+    if (clockButton) {
+        draw_clock();
+        
+        fill(127);    
+        rect(645, 100, 270, 50);
+
+        fill(255);
+        textAlign(CENTER, CENTER);
+        textFont('Courier New');
+        textSize(75);
+        text('TIMER', 780, 127.5);
+        
+    }
+
+    else if (timerButton) {
+        draw_timer();
+
+        fill(127);    
+        rect(365, 100, 270, 50);
+    
+        fill(255);
+        textAlign(CENTER, CENTER);
+        textFont('Courier New');
+        textSize(75);
+        text('CLOCK', 500, 127.5);
+    }
+
+    draw_header();
+}  
+
+function draw_clock() {
     // Draw the clock background
     fill(80);
     noStroke();
@@ -228,7 +288,51 @@ function draw_clock() {
     text('11', 430, 125);
 
     noStroke();
-    draw_header();
+}
+
+function draw_timer() {
+    fill(255);
+    textAlign(CENTER, CENTER);
+    textFont('Courier New');
+    textSize(200);
+
+    if ((mouseX >= 425 && mouseX <= 575) && (mouseY >= 350 && mouseY <= 400) && mouseIsPressed) {
+        startButton = true;
+    }
+
+    if (((frameCount % 60) == 0) && (timer > 0) && (startButton)) {
+        timer --;
+    }    
+    
+    timerHour = floor(timer / 3600);
+    timerMinute = floor((timer % 3600) / 60);
+    timerSecond = (timer % 3600) % 60;
+
+    if (timerMinute < 10) {
+        if (timerSecond < 10) {
+            text(timerHour + ":" + "0" + timerMinute + ":" + "0" + timerSecond, 500, 250);
+        }
+        else {
+            text(timerHour + ":" + "0" + timerMinute + ":" + timerSecond, 500, 250);
+        }    
+    
+    }
+    else {
+        if (timerSecond < 10) {
+            text(timerHour + ":" + timerMinute + ":" + "0" + timerSecond, 500, 250);
+        }
+        else {
+            text(timerHour + ":" + timerMinute + ":" + timerSecond, 500, 250);
+        }
+    }
+
+    // start button
+    fill(127);
+    rect(425, 350, 150, 50);
+
+    fill(255);
+    textSize(50);
+    text("START", 500, 375);    
 }
 
 //========== MAP FUNCTIONS ==========
