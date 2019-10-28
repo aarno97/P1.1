@@ -32,11 +32,17 @@ var hoursRadius;
 var clockDiameter;
 var clockButton = true;
 var timerButton = false;
-var startButton = false;
+var stopwatchButton = false;
+var startTimer = false;
+var startStopWatch = false;
 var timer;
 var timerHour;
 var timerMinute;
 var timerSecond;
+var stopwatch;
+var stopwatchTenthSecond;
+var stopwatchSecond;
+var stopwatchMinute;
 
 //map parameters
 var default_map_img;
@@ -135,7 +141,8 @@ async function setup() {
     cx = width / 2;
     cy = height / 2;
 
-    timer = 60;
+    timer = 0;
+    stopwatch = 0;
 
     //map setup
     default_map_img = loadImage('default_map.png');
@@ -155,8 +162,11 @@ function draw() {
         case "home":
             clockButton = true;
             timerButton = false;            
-            startButton = false;
-            timer = 60;
+            startStopWatch = false;
+            startTimer = false;
+            startStopWatch = false;
+            timer = 0;
+            stopwatch = 0;
             draw_home();
             break;
         case "weather":
@@ -187,28 +197,53 @@ function draw_header () {
 
 //========== CLOCK FUNCTIONS ==========
 
-
 function draw_clock_app() {
     // full screen background
     fill(1, 14, 36);
     noStroke();
     rect(75, 75, 850, 350);
     
+    // clock button
     if ((mouseX >= 365 && mouseX <= 635) && (mouseY >= 100 && mouseY <= 150) && mouseIsPressed) {
         clockButton = true;
         timerButton = false;
-        startButton = false;
-        timer = 60;
+        stopwatchButton = false;
+        startTimer = false;
+        startStopWatch = false;
+        timer = 0;
+        stopwatch = 0;
     }
-    
+
+    // timer button
     else if ((mouseX >= 645 && mouseX <= 915) && (mouseY >= 100 && mouseY <= 150) && mouseIsPressed) {
         clockButton = false;
         timerButton = true;
+        stopwatchButton = false;
+        startStopWatch = false;
+        stopwatch = 0;
+    }
+
+    // stopwatch button
+    else if ((mouseX >= 85 && mouseX <= 355) && (mouseY >= 100 && mouseY <= 150) && mouseIsPressed) {
+        clockButton = false;
+        timerButton = false;
+        stopwatchButton = true;
+        startTimer = false;
+        timer = 0;
     }
 
     if (clockButton) {
         draw_clock();
         
+        fill(127);    
+        rect(85, 100, 270, 50);
+    
+        fill(255);
+        textAlign(CENTER, CENTER);
+        textFont('Courier New');
+        textSize(50);
+        text('STOPWATCH', 220, 127.5);
+
         fill(127);    
         rect(645, 100, 270, 50);
 
@@ -217,11 +252,19 @@ function draw_clock_app() {
         textFont('Courier New');
         textSize(75);
         text('TIMER', 780, 127.5);
-        
     }
 
     else if (timerButton) {
         draw_timer();
+
+        fill(127);    
+        rect(85, 100, 270, 50);
+    
+        fill(255);
+        textAlign(CENTER, CENTER);
+        textFont('Courier New');
+        textSize(50);
+        text('STOPWATCH', 220, 127.5);
 
         fill(127);    
         rect(365, 100, 270, 50);
@@ -231,6 +274,28 @@ function draw_clock_app() {
         textFont('Courier New');
         textSize(75);
         text('CLOCK', 500, 127.5);
+    }
+
+    else if (stopwatchButton) {
+        draw_stopwatch();
+
+        fill(127);    
+        rect(365, 100, 270, 50);
+    
+        fill(255);
+        textAlign(CENTER, CENTER);
+        textFont('Courier New');
+        textSize(75);
+        text('CLOCK', 500, 127.5);
+
+        fill(127);    
+        rect(645, 100, 270, 50);
+
+        fill(255);
+        textAlign(CENTER, CENTER);
+        textFont('Courier New');
+        textSize(75);
+        text('TIMER', 780, 127.5);
     }
 
     draw_header();
@@ -296,11 +361,21 @@ function draw_timer() {
     textFont('Courier New');
     textSize(200);
 
-    if ((mouseX >= 425 && mouseX <= 575) && (mouseY >= 350 && mouseY <= 400) && mouseIsPressed) {
-        startButton = true;
+    if ((mouseX >= 125 && mouseX <= 375) && (mouseY >= 350 && mouseY <= 400) && mouseIsPressed && (!startTimer)) {
+        timer++;
     }
 
-    if (((frameCount % 60) == 0) && (timer > 0) && (startButton)) {
+    else if ((mouseX >= 625 && mouseX <= 875) && (mouseY >= 350 && mouseY <= 400) && mouseIsPressed && (!startTimer)) {
+        if (timer > 0) {
+            timer--;
+        }
+    }    
+
+    if ((mouseX >= 425 && mouseX <= 575) && (mouseY >= 350 && mouseY <= 400) && mouseIsPressed) {
+        startTimer = true;
+    }
+
+    if (((frameCount % 60) == 0) && (timer > 0) && (startTimer)) {
         timer --;
     }    
     
@@ -330,9 +405,76 @@ function draw_timer() {
     fill(127);
     rect(425, 350, 150, 50);
 
-    fill(255);
+    fill(0, 0, 255);
     textSize(50);
-    text("START", 500, 375);    
+    text("START", 500, 375);
+
+    // increase time
+    fill(127);
+    rect(125, 350, 250, 50);
+
+    fill(0, 255, 0);
+    textSize(30);
+    text("Increase Time", 250, 375)
+
+    // decrease time
+    fill(127);
+    rect(625, 350, 250, 50);
+
+    fill(255, 0, 0);
+    textSize(30);
+    text("Decrease Time", 750, 375)
+}
+
+function draw_stopwatch() {
+    fill(1, 14, 36);
+    noStroke();
+    rect(75, 75, 850, 350);
+
+    fill(255);
+    textAlign(CENTER, CENTER);
+    textFont('Courier New');
+    textSize(200);
+
+    if ((mouseX >= 250 && mouseX <= 400) && (mouseY >= 350 && mouseY <= 400) && mouseIsPressed) {
+        startStopWatch = true;
+    }
+
+    if ((mouseX >= 600 && mouseX <= 750) && (mouseY >= 350 && mouseY <= 400) && mouseIsPressed) {
+        startStopWatch = false;
+    }
+
+    if (((frameCount % 6) == 0) && startStopWatch) {
+        stopwatch++;
+    }    
+
+    stopwatchMinute = floor(stopwatch / 600);//floor(timer / 3600);
+    stopwatchSecond = floor(stopwatch / 10);//floor((timer % 3600) / 60);
+    stopwatchTenthSecond = stopwatch % 10;//(timer % 3600) % 60;
+
+    if (stopwatchSecond < 10) {
+        text(stopwatchMinute + ":" + "0" + stopwatchSecond + "." + stopwatchTenthSecond, 500, 250);
+    }
+    else {
+        text(stopwatchMinute + ":" + stopwatchSecond + "." + stopwatchTenthSecond, 500, 250);
+    }
+
+    // start button
+    fill(127);
+    rect(250, 350, 150, 50);
+
+    fill(0, 255, 0);
+    textSize(50);
+    text("START", 325, 375);
+
+
+    // stop button
+    fill(127);
+    rect(600, 350, 150, 50);
+
+    fill(255, 0, 0);
+    textSize(50);
+    text("STOP", 675, 375);
 }
 
 //========== MAP FUNCTIONS ==========
