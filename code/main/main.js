@@ -24,7 +24,7 @@ var button_newsfeed_back;
 var buttons;
 
 //clock parameters
-var cx; 
+var cx;
 var cy;
 var secondsRadius;
 var minutesRadius;
@@ -65,7 +65,7 @@ async function setup() {
     newsfeed_data = await get_newsfeed_data();
 
     //button setup
-    button_home_weather = createImg('icon_circle_red.png', 'alt');
+    button_home_weather = createImg('icon_weather.png', 'alt');
     button_home_weather.size(50,50);
     button_home_weather.position(850, 437.5);
     button_home_weather.mousePressed(button_home_weather_handler);
@@ -611,6 +611,14 @@ function hide_all_buttons() {
     }
 }
 
+
+function show_home_buttons() {
+    button_home_weather.show();
+    button_home_clock.show();
+    button_home_map.show();
+    button_home_newsfeed.show();
+}
+
 function button_home_weather_handler() {
     hide_all_buttons();
     console.log('going to fullscreen weather');
@@ -621,10 +629,7 @@ function button_home_weather_handler() {
 function button_weather_back_handler() {
     hide_all_buttons();
     state = "home";
-    button_home_weather.show();
-    button_home_clock.show();
-    button_home_map.show();
-    button_home_newsfeed.show();
+   show_home_buttons();
 }
 
 function button_home_clock_handler() {
@@ -637,10 +642,7 @@ function button_home_clock_handler() {
 function button_clock_back_handler() {
     hide_all_buttons();
     state = "home";
-    button_home_weather.show();
-    button_home_clock.show();
-    button_home_map.show();
-    button_home_newsfeed.show();
+    show_home_buttons();
 }
 
 function button_home_map_handler() {
@@ -653,10 +655,7 @@ function button_home_map_handler() {
 function button_map_back_handler() {
     hide_all_buttons();
     state = "home";
-    button_home_weather.show();
-    button_home_clock.show();
-    button_home_map.show();
-    button_home_newsfeed.show();
+    show_home_buttons();
 }
 
 function button_home_newsfeed_handler() {
@@ -669,8 +668,5 @@ function button_home_newsfeed_handler() {
 function button_newsfeed_back_handler() {
     hide_all_buttons();
     state = "home";
-    button_home_weather.show();
-    button_home_clock.show();
-    button_home_map.show();
-    button_home_newsfeed.show();
+    show_home_buttons();
 }
