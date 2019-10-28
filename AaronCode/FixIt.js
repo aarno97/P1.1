@@ -24,13 +24,13 @@ function setup() {
     ExerButton.position(75,50);
     ExerButton.mousePressed(ExerciseButton);
     MovButton = createButton('Move Results');
-    MovButton.position(225, 50);
+    MovButton.position(300, 50);
     MovButton.mousePressed(MoveButton);
     SleeButton = createButton('Sleep Results');
     SleeButton.position(425, 50);
     SleeButton.mousePressed(SleepButton);
     StanButton = createButton('Stand Results');
-    StanButton.position(700, 50);
+    StanButton.position(600, 50);
     StanButton.mousePressed(StandButton);
     SteButton = createButton('Step Results');
     SteButton.position(850, 50);
