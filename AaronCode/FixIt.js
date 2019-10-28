@@ -1,20 +1,6 @@
-let Calendar;
-let Exercise;
-let Move;
-let Sleep;
-let Stand;
-let Step;
-let State = 'Map';
-let ExerButton;
-let MovButton;
-let SleeButton;
-let StanButton;
-let SteButton;
-let calButton;
-let musButton;
-let mapButton;
-let healButton;
+let State = 'Calendar';
 let HealthState = 'Exercise';
+let Calendar, Exercise, Move, Sleep, Stand, Step, ExerButton, MovButton, SleeButton, StanButton, SteButton, calButton, musButton, mapButton, healButton;
 
 function setup() {
     createCanvas(1000,500);
@@ -26,18 +12,7 @@ function setup() {
     Stand = loadImage('Stand Goal.png');
     Step = loadImage('Step Goal.png');
     createHealth();
-    healButton = createButton('Health');
-    healButton.position(650, 75);
-    healButton.mousePressed(HealthButton);
-    calButton = createButton('Calendar');
-    calButton.position(75, 75);
-    calButton.mousePressed(CalendarButton);
-    musButton = createButton('Music');
-    musButton.position( 275, 75);
-    musButton.mousePressed(MusicButton);
-    mapButton = createButton('Map');
-    mapButton.position(450, 75);
-    mapButton.mousePressed(MapResults);
+    buttonMaker();
 }
 
 function draw() {
@@ -74,6 +49,21 @@ function draw() {
             image(Step, 75, 75, 850, 350);
         }
     }
+}
+
+function buttonMaker() {
+    healButton = createButton('Health');
+    healButton.position(650, 75);
+    healButton.mousePressed(HealthButton);
+    calButton = createButton('Calendar');
+    calButton.position(75, 75);
+    calButton.mousePressed(CalendarButton);
+    musButton = createButton('Music');
+    musButton.position( 275, 75);
+    musButton.mousePressed(MusicButton);
+    mapButton = createButton('Map');
+    mapButton.position(450, 75);
+    mapButton.mousePressed(MapResults);
 }
 
 function showOther() {
