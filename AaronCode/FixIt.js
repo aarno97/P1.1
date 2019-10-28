@@ -12,6 +12,7 @@ let StanButton;
 let SteButton;
 let calButton;
 let musButton;
+let mapButton;
 
 function setup() {
     createCanvas(1000,500);
@@ -43,6 +44,9 @@ function setup() {
     musButton = createButton('Music');
     musButton.position( 275, 75);
     musButton.mousePressed(MusicButton);
+    // mapButton = createButton('Map');
+    // mapButton.position(450, 75);
+    // mapButton.mousePressed(MapResults);
 }
 
 function draw() {
@@ -52,34 +56,51 @@ function draw() {
         select('#calendar', HTMLElement).position(75, 75);
         select('#calendar', HTMLElement).show();
         select('#music', HTMLElement).hide();
+        // select('map', HTMLElement).hide();
     } else if(i === 'Music') {
         select('#music', HTMLElement).position(75, 75);
         select('#music', HTMLElement).show();
         select('#calendar', HTMLElement).hide();
+        select('map', HTMLElement).hide();
+        // } else if(i === 'Map') {
+        //     select('map', HTMLElement).position(75,75);
+        //     select('map', HTMLElement).show();
+        //     select('#calendar', HTMLElement).hide();
+        //     select('#music', HTMLElement).hide();
+        // }
     } else if(i === 'Exercise') {
         image(Exercise, 75, 75, 850, 350);
         select('#calendar', HTMLElement).hide();
         select('#music', HTMLElement).hide();
+        // select('map', HTMLElement).hide();
     } else if(i === 'Move') {
         image(Move, 75, 75, 850, 350);
         select('#calendar', HTMLElement).hide();
         select('#music', HTMLElement).hide();
+        // select('map', HTMLElement).hide();
     } else if(i === 'Sleep') {
         image(Sleep, 75, 75, 850, 350);
         select('#calendar', HTMLElement).hide();
         select('#music', HTMLElement).hide();
+        // select('map', HTMLElement).hide();
     } else if(i === 'Stand') {
         image(Stand, 75, 75, 850, 350);
         select('#calendar', HTMLElement).hide();
         select('#music', HTMLElement).hide();
+        // select('map', HTMLElement).hide();
     } else if(i === 'Step') {
         image(Step, 75, 75, 850, 350);
         select('#calendar', HTMLElement).hide();
         select('#music', HTMLElement).hide();
+        // select('map', HTMLElement).hide();
     }
 }
 
-function musicButton() {
+function MapResults() {
+    State = 'Map';
+}
+
+function MusicButton() {
     State = 'Music';
 }
 
