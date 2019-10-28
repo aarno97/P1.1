@@ -14,6 +14,7 @@ let calButton;
 let musButton;
 let mapButton;
 let healButton;
+let HealthState = 'Exercise';
 
 function setup() {
     createCanvas(1000,500);
@@ -27,7 +28,7 @@ function setup() {
     createHealth();
     healButton = createButton('Health');
     healButton.position(650, 75);
-
+    healButton.mousePressed(HealthButton);
     calButton = createButton('Calendar');
     calButton.position(75, 75);
     calButton.mousePressed(CalendarButton);
@@ -58,8 +59,33 @@ function draw() {
         select('#calendar', HTMLElement).position(75,75);
         select('#calendar', HTMLElement).show();
     } else if(i === 'Health') {
-
+        hideAll();
+        hideOther();
+        showHealth();
+        if(HealthState === 'Exercise') {
+            image(Exercise, 75, 75, 850, 350);
+        } else if(HealthState === 'Move') {
+            image(Move, 75, 75, 850, 350);
+        } else if(HealthState === 'Sleep') {
+            image(Sleep, 75, 75, 850, 350);
+        } else if(HealthState === 'Stand') {
+            image(Stand, 75, 75, 850, 350);
+        } else if(HealthState === 'Step') {
+            image(Step, 75, 75, 850, 350);
+        }
     }
+}
+
+function showOther() {
+    calButton.show();
+    musButton.show();
+    mapButton.show();
+}
+
+function hideOther() {
+    calButton.hide();
+    musButton.hide();
+    mapButton.hide();
 }
 
 function createHealth() {
@@ -102,6 +128,15 @@ function hideAll() {
     select('#music', HTMLElement).hide();
 }
 
+function HealthButton() {
+    if(State === 'Health') {
+        State = 'Map';
+        showOther();
+    } else {
+        State = 'Health';
+    }
+}
+
 function MapResults() {
     State = 'Map';
 }
@@ -115,21 +150,21 @@ function CalendarButton() {
 }
 
 function ExerciseButton() {
-    State = 'Exercise';
+    HealthState = 'Exercise';
 }
 
 function MoveButton() {
-    State = 'Move';
+    HealthState = 'Move';
 }
 
 function SleepButton() {
-    State = 'Sleep';
+    HealthState = 'Sleep';
 }
 
 function StandButton() {
-    State = 'Stand';
+    HealthState = 'Stand';
 }
 
 function StepButton() {
-    State = 'Step';
+    HealthState = 'Step';
 }
