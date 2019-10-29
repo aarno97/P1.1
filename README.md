@@ -9,6 +9,6 @@ Please view the [HTML](https://github.com/apape97/P1.1/blob/master/AaronCode/ind
 
 ###### Some aspects have been pulled from pre-built services, pulled sources are open source and available to use by anyone. Please see below for project features that have been adapted from outside sources. 
 
-1. Calendar was pulled from [Google](calendar.google.com). 
-2. Map was pulled from [Google](maps.google.com). 
+1. Calendar was pulled from [Google](https://calendar.google.com/calendar/r). 
+2. Map was pulled from [Google](https://www.google.com/maps). 
 3. Music was pulled from [Apple Music Toolbox](https://tools.applemusic.com/en-us?country=us). 
