@@ -5,9 +5,9 @@
 //GLOBALS
 //!newsapi key is 'a520cc4f10344f78a98d2371e6af098d'
 var state;  //(str) current state of mirror ("inactive", "home", or name of application in fullscreen);
-var current_weather_data  //json of local weather data
-var weekly_weather_data
-var newsfeed_data
+var current_weather_data;  //json of local weather data
+var weekly_weather_data;
+var newsfeed_data;
 var c;  //for video capture
 var din; //!font for header (DO NOT USE WITH CHROME)
 
@@ -25,8 +25,10 @@ var button_home_health;
 var button_health_back;
 var button_initial_home;
 
+let button_home_music;
+let button_music_back;
+
 let HealthState = 'Exercise';
-let Calendar;
 let Exercise;
 let Move;
 let Sleep;
@@ -37,11 +39,6 @@ let MovButton;
 let SleeButton;
 let StanButton;
 let SteButton;
-let calButton;
-let musButton;
-let mapButton;
-let healButton;
-let backButton;
 
 var buttons;
 
@@ -77,7 +74,6 @@ var work_map = false;
 async function preload() {
     //!din = loadFont('fonts/D-DIN.otf')
 }
-
 
 async function setup() {
     createCanvas(1000, 500);
@@ -153,7 +149,22 @@ async function setup() {
     button_home_back.position(857.14, 437.5);
     button_home_back.mousePressed(button_home_back_handler);
 
-    buttons = new Array();
+    //Per Apple documentation, we are expected to use an Apple Authorized Image
+    //therefore, I have added the standard icon to the project.
+    //well technically not the standard image as it is cropped, and that is against
+    //Apple documentation rules, so we can replace it if you want to
+    button_home_music = createImg('icon_music.png', 'alt');
+    button_home_music.size(50, 50);
+    button_home_music.position(50, 437.5);
+    button_home_music.mousePressed(button_home_music_handler);
+
+    button_music_back = createImg('icon_back_circle.png', 'alt');
+    button_music_back.size(50, 50);
+    button_music_back.position(475, 437.5);
+    button_music_back.mousePressed(button_music_back_handler);
+
+
+    buttons = [];
     buttons.push(
         button_home_weather,
         button_weather_back,
@@ -166,7 +177,9 @@ async function setup() {
         button_home_health,
         button_health_back,
         button_home_back,
-        button_initial_home
+        button_initial_home,
+        button_home_music,
+        button_music_back
     );
 
     console.log(buttons.length);
@@ -215,9 +228,11 @@ function draw() {
     noStroke();
     switch(state) {
         case "initial":
+            hideAll();
             draw_initial();
             break;
         case "home":
+            hideAll();
             clockButton = true;
             timerButton = false;
             startButton = false;
@@ -231,18 +246,23 @@ function draw() {
             draw_home();
             break;
         case "weather":
+            hideAll();
             draw_weather_fullscreen();
             break;
         case "clock":
+            hideAll();
             draw_clock_app();
             break;
         case "map":
+            hideAll();
             draw_map();
             break;
         case "newsfeed":
+            hideAll();
             draw_newsfeed();
             break;
         case "health":
+            hideAll();
             showHealth();
             if(HealthState === 'Exercise') {
                 image(Exercise, 75, 75, 850, 350);
@@ -255,6 +275,11 @@ function draw() {
             } else if(HealthState === 'Step') {
                 image(Step, 75, 75, 850, 350);
             }
+            break;
+        case "Music":
+            hideAll();
+            select('#music', HTMLElement).position(75, 75);
+            select('#music', HTMLElement).show();
             break;
         default:
             background(0);
@@ -555,38 +580,44 @@ function draw_stopwatch() {
 //========== MAP FUNCTIONS ==========
 
 function draw_map() {
-    if ((mouseX >= 485 && mouseX <= 585) && (mouseY >= 370 && mouseY <= 420) && mouseIsPressed) {
-        default_map = false;
-        school_map = true;
-        work_map = false;
-    }
-    else if ((mouseX >= 635 && mouseX <= 735) && (mouseY >= 370 && mouseY <= 420) && mouseIsPressed) {
-        default_map = false;
-        school_map = false;
-        work_map = true;
-    }
 
-    if (default_map) {
-        image(default_map_img, 75, 75, 850, 350);
-    }
-    else if (school_map) {
-        image(school_map_img, 75, 75, 850, 350);
-    }
-    else if (work_map) {
-        image(work_map_img, 75, 75, 850, 350);
-    }
+    hideAll();
+    select('#map', HTMLElement).position(75,75);
+    select('#map', HTMLElement).show();
 
-    fill(0);
-    noStroke();
-    rect(485, 370, 100, 50);
-    rect(635, 370, 100, 50);
-
-    fill(255);
-    textAlign(CENTER, CENTER);
-    textSize(25);
-    textFont('Courier New');
-    text('SCHOOL', 535, 395);
-    text('WORK', 685, 395);
+    /*Commenting out previous code to work with new code */
+    // if ((mouseX >= 485 && mouseX <= 585) && (mouseY >= 370 && mouseY <= 420) && mouseIsPressed) {
+    //     default_map = false;
+    //     school_map = true;
+    //     work_map = false;
+    // }
+    // else if ((mouseX >= 635 && mouseX <= 735) && (mouseY >= 370 && mouseY <= 420) && mouseIsPressed) {
+    //     default_map = false;
+    //     school_map = false;
+    //     work_map = true;
+    // }
+    //
+    // if (default_map) {
+    //     image(default_map_img, 75, 75, 850, 350);
+    // }
+    // else if (school_map) {
+    //     image(school_map_img, 75, 75, 850, 350);
+    // }
+    // else if (work_map) {
+    //     image(work_map_img, 75, 75, 850, 350);
+    // }
+    //
+    // fill(0);
+    // noStroke();
+    // rect(485, 370, 100, 50);
+    // rect(635, 370, 100, 50);
+    //
+    // fill(255);
+    // textAlign(CENTER, CENTER);
+    // textSize(25);
+    // textFont('Courier New');
+    // text('SCHOOL', 535, 395);
+    // text('WORK', 685, 395);
 
     draw_header();
 }
@@ -829,6 +860,18 @@ function hide_all_buttons() {
     }
 }
 
+function button_home_music_handler() {
+    hide_all_buttons();
+    console.log('going to fullscreen music');
+    state = "Music";
+    button_music_back.show();
+}
+
+function button_music_back_handler() {
+    hide_all_buttons();
+    state = "home";
+    show_home_buttons();
+}
 
 function show_home_buttons() {
     button_home_weather.show();
@@ -836,7 +879,8 @@ function show_home_buttons() {
     button_home_map.show();
     button_home_newsfeed.show();
     button_home_health.show();
-    button_home_back.show()
+    button_home_back.show();
+    button_home_music.show();
 }
 
 function button_home_weather_handler() {
