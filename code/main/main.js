@@ -1,4 +1,4 @@
-var fetch = require('node-fetch');
+// var fetch = require('node-fetch');
 
 // full screen size for apps is going to be 850 x 350
 
@@ -24,6 +24,24 @@ var button_home_back;
 var button_home_health;
 var button_health_back;
 var button_initial_home;
+
+let HealthState = 'Exercise';
+let Calendar;
+let Exercise;
+let Move;
+let Sleep;
+let Stand;
+let Step;
+let ExerButton;
+let MovButton;
+let SleeButton;
+let StanButton;
+let SteButton;
+let calButton;
+let musButton;
+let mapButton;
+let healButton;
+let backButton;
 
 var buttons;
 
@@ -151,11 +169,11 @@ async function setup() {
         button_initial_home
     );
 
-    console.log(buttons.length)
+    console.log(buttons.length);
 
     hide_all_buttons();
     state = "initial";
-    button_initial_home.show()
+    button_initial_home.show();
 
     //clock setup
     var radius = min(850, 350) / 2;
@@ -176,12 +194,19 @@ async function setup() {
     work_map_img = loadImage('work_map.png');
     default_map = true;
 
-    Calendar = loadImage('Calendar.png');
+    //Aaron Code
+
     Exercise = loadImage('Exercise Goal.png');
     Move = loadImage('Move Goal.png');
     Sleep = loadImage('Sleep Goal.png');
     Stand = loadImage('Stand Goal.png');
     Step = loadImage('Step Goal.png');
+
+    createHealth();
+    // buttonMaker();
+    hideHealth();
+    hideAll();
+    // hideOther();
 }
 
 
@@ -218,7 +243,18 @@ function draw() {
             draw_newsfeed();
             break;
         case "health":
-            image(Exercise, 75, 75, 850, 350);
+            showHealth();
+            if(HealthState === 'Exercise') {
+                image(Exercise, 75, 75, 850, 350);
+            } else if(HealthState === 'Move') {
+                image(Move, 75, 75, 850, 350);
+            } else if(HealthState === 'Sleep') {
+                image(Sleep, 75, 75, 850, 350);
+            } else if(HealthState === 'Stand') {
+                image(Stand, 75, 75, 850, 350);
+            } else if(HealthState === 'Step') {
+                image(Step, 75, 75, 850, 350);
+            }
             break;
         default:
             background(0);
@@ -864,6 +900,7 @@ function button_home_health_handler() {
 
 function button_health_back_handler() {
     hide_all_buttons();
+    hideHealth();
     state = "home";
     show_home_buttons();
 }
@@ -878,4 +915,80 @@ function button_initial_home_handler() {
     hide_all_buttons();
     state = "home"
     show_home_buttons();
+}
+
+function createHealth() {
+    ExerButton = createButton('Exercise Results');
+    ExerButton.position(200,50);
+    ExerButton.mousePressed(ExerciseButton);
+    MovButton = createButton('Move Results');
+    MovButton.position(325, 50);
+    MovButton.mousePressed(MoveButton);
+    SleeButton = createButton('Sleep Results');
+    SleeButton.position(450, 50);
+    SleeButton.mousePressed(SleepButton);
+    StanButton = createButton('Stand Results');
+    StanButton.position(575, 50);
+    StanButton.mousePressed(StandButton);
+    SteButton = createButton('Step Results');
+    SteButton.position(700, 50);
+    SteButton.mousePressed(StepButton);
+}
+
+function showHealth() {
+    ExerButton.show();
+    MovButton.show();
+    SleeButton.show();
+    SteButton.show();
+    StanButton.show();
+    // backButton.show();
+    // healButton.hide();
+}
+
+function hideHealth() {
+    ExerButton.hide();
+    MovButton.hide();
+    SleeButton.hide();
+    SteButton.hide();
+    StanButton.hide();
+    // backButton.hide();
+    // healButton.show();
+}
+
+function hideAll() {
+    select('#map', HTMLElement).hide();
+    select('#calendar', HTMLElement).hide();
+    select('#music', HTMLElement).hide();
+}
+
+// function MapResults() {
+//     state = 'Map';
+// }
+//
+// function MusicButton() {
+//     state = 'Music';
+// }
+//
+// function CalendarButton() {
+//     State = 'Calendar';
+// }
+
+function ExerciseButton() {
+    HealthState = 'Exercise';
+}
+
+function MoveButton() {
+    HealthState = 'Move';
+}
+
+function SleepButton() {
+    HealthState = 'Sleep';
+}
+
+function StandButton() {
+    HealthState = 'Stand';
+}
+
+function StepButton() {
+    HealthState = 'Step';
 }
