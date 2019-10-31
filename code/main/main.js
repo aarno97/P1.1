@@ -175,6 +175,13 @@ async function setup() {
     school_map_img = loadImage('school_map.png');
     work_map_img = loadImage('work_map.png');
     default_map = true;
+
+    Calendar = loadImage('Calendar.png');
+    Exercise = loadImage('Exercise Goal.png');
+    Move = loadImage('Move Goal.png');
+    Sleep = loadImage('Sleep Goal.png');
+    Stand = loadImage('Stand Goal.png');
+    Step = loadImage('Step Goal.png');
 }
 
 
@@ -209,6 +216,9 @@ function draw() {
             break;
         case "newsfeed":
             draw_newsfeed();
+            break;
+        case "health":
+            image(Exercise, 75, 75, 850, 350);
             break;
         default:
             background(0);
