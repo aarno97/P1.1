@@ -20,6 +20,10 @@ var button_home_map;
 var button_map_back;
 var button_home_newsfeed;
 var button_newsfeed_back;
+var button_home_back;
+var button_home_health;
+var button_health_back;
+var button_initial_home;
 
 var buttons;
 
@@ -53,9 +57,6 @@ var school_map = false;
 var work_map = false;
 
 async function preload() {
-    current_weather_data = await get_current_weather_data(5525577);
-    weekly_weather_data = await get_weekly_weather_data(5525577);
-
     //!din = loadFont('fonts/D-DIN.otf')
 }
 
@@ -68,12 +69,15 @@ async function setup() {
     c.size(1000,500);
     c.hide();  //prevents duplicate feed
 
+    //get data from external sources
     newsfeed_data = await get_newsfeed_data();
+    current_weather_data = await get_current_weather_data(5525577);
+    weekly_weather_data = await get_weekly_weather_data(5525577);
 
     //button setup
     button_home_weather = createImg('icon_weather.png', 'alt');
     button_home_weather.size(50,50);
-    button_home_weather.position(850, 437.5);
+    button_home_weather.position(714.28, 437.5);
     button_home_weather.mousePressed(button_home_weather_handler);
 
     button_weather_back = createImg('icon_back_circle.png', 'alt');
@@ -81,8 +85,9 @@ async function setup() {
     button_weather_back.position(475, 437.5);
     button_weather_back.mousePressed(button_weather_back_handler);
 
-    button_home_clock = createImg('test_button.png', 'alt');
-    button_home_clock.position(200, 437.5);
+    button_home_clock = createImg('icon_clock.png', 'alt');
+    button_home_clock.size(50,50)
+    button_home_clock.position(571.42, 437.5);
     button_home_clock.mousePressed(button_home_clock_handler);
 
     button_clock_back = createImg('icon_back_circle.png', 'alt');
@@ -90,8 +95,9 @@ async function setup() {
     button_clock_back.position(475, 437.5);
     button_clock_back.mousePressed(button_clock_back_handler);
 
-    button_home_map = createImg('test_button.png', 'alt');
-    button_home_map.position(500, 437.5);
+    button_home_map = createImg('icon_map.png', 'alt');
+    button_home_map.size(50,50);
+    button_home_map.position(428.56, 437.5);
     button_home_map.mousePressed(button_home_map_handler);
 
     button_map_back = createImg('icon_back_circle.png', 'alt');
@@ -99,8 +105,8 @@ async function setup() {
     button_map_back.position(475, 437.5);
     button_map_back.mousePressed(button_map_back_handler);
 
-    button_home_newsfeed = createImg('icon_circle_green.png', 'alt');
-    button_home_newsfeed.position(600, 437.5);
+    button_home_newsfeed = createImg('icon_newsfeed.png', 'alt');
+    button_home_newsfeed.position(285.7, 437.5);
     button_home_newsfeed.size(50,50);
     button_home_newsfeed.mousePressed(button_home_newsfeed_handler);
 
@@ -108,6 +114,26 @@ async function setup() {
     button_newsfeed_back.size(50, 50);
     button_newsfeed_back.position(475, 437.5);
     button_newsfeed_back.mousePressed(button_newsfeed_back_handler);
+
+    button_home_health = createImg('icon_health.png', 'alt');
+    button_home_health.position(142.84, 437.5);
+    button_home_health.size(50,50);
+    button_home_health.mousePressed(button_home_health_handler);
+
+    button_health_back = createImg('icon_back_circle.png', 'alt');
+    button_health_back.size(50, 50);
+    button_health_back.position(475, 437.5);
+    button_health_back.mousePressed(button_health_back_handler);
+
+    button_initial_home = createImg('icon_home.png', 'alt');
+    button_initial_home.size(50,50);
+    button_initial_home.position(875, 375);
+    button_initial_home.mousePressed(button_initial_home_handler);
+
+    button_home_back = createImg('icon_back_circle.png', 'alt');
+    button_home_back.size(50, 50);
+    button_home_back.position(857.14, 437.5);
+    button_home_back.mousePressed(button_home_back_handler);
 
     buttons = new Array();
     buttons.push(
@@ -118,18 +144,18 @@ async function setup() {
         button_home_map,
         button_map_back,
         button_home_newsfeed,
-        button_newsfeed_back
+        button_newsfeed_back,
+        button_home_health,
+        button_health_back,
+        button_home_back,
+        button_initial_home
     );
 
     console.log(buttons.length)
 
     hide_all_buttons();
-    state = "home";
-    button_home_weather.show();
-    button_home_clock.show();
-    button_home_map.show();
-    button_home_newsfeed.show();
-    //button_home_weather = createImg('images/test_button.png', 'ok')
+    state = "initial";
+    button_initial_home.show()
 
     //clock setup
     var radius = min(850, 350) / 2;
@@ -137,7 +163,7 @@ async function setup() {
     minutesRadius = radius * 0.60;
     hoursRadius = radius * 0.50;
     clockDiameter = radius * 1.8;
-    
+
     cx = width / 2;
     cy = height / 2;
 
@@ -164,7 +190,7 @@ function draw() {
             timerButton = false;
             startButton = false;
             timer = 60;
-            timerButton = false;            
+            timerButton = false;
             startStopWatch = false;
             startTimer = false;
             startStopWatch = false;
@@ -561,6 +587,7 @@ function draw_weather_fullscreen_data() {
 }
 
 function draw_weather_window(data, x, y) {
+    noStroke();
     fill(255,255,255);
     textSize(30);
     textFont('Georgia');
@@ -762,6 +789,8 @@ function show_home_buttons() {
     button_home_clock.show();
     button_home_map.show();
     button_home_newsfeed.show();
+    button_home_health.show();
+    button_home_back.show()
 }
 
 function button_home_weather_handler() {
@@ -774,7 +803,7 @@ function button_home_weather_handler() {
 function button_weather_back_handler() {
     hide_all_buttons();
     state = "home";
-   show_home_buttons();
+    show_home_buttons();
 }
 
 function button_home_clock_handler() {
@@ -813,5 +842,30 @@ function button_home_newsfeed_handler() {
 function button_newsfeed_back_handler() {
     hide_all_buttons();
     state = "home";
+    show_home_buttons();
+}
+
+function button_home_health_handler() {
+    hide_all_buttons();
+    console.log('going to fullscreen health');
+    state = "health";
+    button_health_back.show();
+}
+
+function button_health_back_handler() {
+    hide_all_buttons();
+    state = "home";
+    show_home_buttons();
+}
+
+function button_home_back_handler() {
+    hide_all_buttons();
+    state = "initial";
+    button_initial_home.show();
+}
+
+function button_initial_home_handler() {
+    hide_all_buttons();
+    state = "home"
     show_home_buttons();
 }
