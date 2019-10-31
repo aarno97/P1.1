@@ -1,70 +1,76 @@
-var fetch = require('node-fetch');
+const fetch = require('node-fetch');
 
 // full screen size for apps is going to be 850 x 350
 
 //GLOBALS
 //!newsapi key is 'a520cc4f10344f78a98d2371e6af098d'
-var state;  //(str) current state of mirror ("inactive", "home", or name of application in fullscreen);
-var current_weather_data  //json of local weather data
-var weekly_weather_data
-var newsfeed_data
-var c;  //for video capture
-var din; //!font for header (DO NOT USE WITH CHROME)
+let state;  //(str) current state of mirror ("inactive", "home", or name of application in fullscreen);
+let current_weather_data;  //json of local weather data
+let weekly_weather_data;
+let newsfeed_data;
+let c;  //for video capture
+let din; //!font for header (DO NOT USE WITH CHROME)
+
+//these variables were previously implicitly declared.
+let startButton;
+let data;
 
 //buttons
-var button_home_weather;
-var button_weather_back;
-var button_home_clock;
-var button_clock_back;
-var button_home_map;
-var button_map_back;
-var button_home_newsfeed;
-var button_newsfeed_back;
-var button_home_back;
-var button_home_health;
-var button_health_back;
-var button_initial_home;
+let button_home_weather;
+let button_weather_back;
+let button_home_clock;
+let button_clock_back;
+let button_home_map;
+let button_map_back;
+let button_home_newsfeed;
+let button_newsfeed_back;
+let button_home_back;
+let button_home_health;
+let button_health_back;
+let button_initial_home;
 
-var buttons;
+let buttons;
 
 //clock parameters
-var cx;
-var cy;
-var secondsRadius;
-var minutesRadius;
-var hoursRadius;
-var clockDiameter;
-var clockButton = true;
-var timerButton = false;
-var stopwatchButton = false;
-var startTimer = false;
-var startStopWatch = false;
-var timer;
-var timerHour;
-var timerMinute;
-var timerSecond;
-var stopwatch;
-var stopwatchTenthSecond;
-var stopwatchSecond;
-var stopwatchMinute;
+let cx;
+let cy;
+let secondsRadius;
+let minutesRadius;
+let hoursRadius;
+let clockDiameter;
+let clockButton = true;
+let timerButton = false;
+let stopwatchButton = false;
+let startTimer = false;
+let startStopWatch = false;
+let timer;
+let timerHour;
+let timerMinute;
+let timerSecond;
+let stopwatch;
+let stopwatchTenthSecond;
+let stopwatchSecond;
+let stopwatchMinute;
 
 //map parameters
-var default_map_img;
-var school_map_img;
-var work_map_img;
-var default_map = false;
-var school_map = false;
-var work_map = false;
+let default_map_img;
+let school_map_img;
+let work_map_img;
+let default_map = false;
+let school_map = false;
+let work_map = false;
 
 async function preload() {
     //!din = loadFont('fonts/D-DIN.otf')
 }
 
 
+// noinspection DuplicatedCode
 async function setup() {
     createCanvas(1000, 500);
 
     //camera functions
+    // noinspection ES6ModulesDependencies
     c = createCapture(VIDEO);
     c.size(1000,500);
     c.hide();  //prevents duplicate feed
@@ -86,7 +92,7 @@ async function setup() {
     button_weather_back.mousePressed(button_weather_back_handler);
 
     button_home_clock = createImg('icon_clock.png', 'alt');
-    button_home_clock.size(50,50)
+    button_home_clock.size(50,50);
     button_home_clock.position(571.42, 437.5);
     button_home_clock.mousePressed(button_home_clock_handler);
 
@@ -151,14 +157,14 @@ async function setup() {
         button_initial_home
     );
 
-    console.log(buttons.length)
+    console.log(buttons.length);
 
     hide_all_buttons();
     state = "initial";
-    button_initial_home.show()
+    button_initial_home.show();
 
     //clock setup
-    var radius = min(850, 350) / 2;
+    const radius = min(850, 350) / 2;
     secondsRadius = radius * 0.72;
     minutesRadius = radius * 0.60;
     hoursRadius = radius * 0.50;
@@ -180,6 +186,7 @@ async function setup() {
 
 function draw() {
     background(63);
+    // noinspection ES6ModulesDependencies
     noStroke();
     switch(state) {
         case "initial":
@@ -229,10 +236,12 @@ function draw_header () {
 function draw_clock_app() {
     // full screen background
     fill(1, 14, 36);
+    // noinspection ES6ModulesDependencies
     noStroke();
     rect(75, 75, 850, 350);
     
     // clock button
+    // noinspection ES6ModulesDependencies
     if ((mouseX >= 365 && mouseX <= 635) && (mouseY >= 100 && mouseY <= 150) && mouseIsPressed) {
         clockButton = true;
         timerButton = false;
@@ -244,23 +253,26 @@ function draw_clock_app() {
     }
 
     // timer button
-    else if ((mouseX >= 645 && mouseX <= 915) && (mouseY >= 100 && mouseY <= 150) && mouseIsPressed) {
-        clockButton = false;
-        timerButton = true;
-        stopwatchButton = false;
-        startStopWatch = false;
-        stopwatch = 0;
+    else { // noinspection ES6ModulesDependencies
+        if ((mouseX >= 645 && mouseX <= 915) && (mouseY >= 100 && mouseY <= 150) && mouseIsPressed) {
+                clockButton = false;
+                timerButton = true;
+                stopwatchButton = false;
+                startStopWatch = false;
+                stopwatch = 0;
+            }
+
+            // stopwatch button
+            else if ((mouseX >= 85 && mouseX <= 355) && (mouseY >= 100 && mouseY <= 150) && mouseIsPressed) {
+                clockButton = false;
+                timerButton = false;
+                stopwatchButton = true;
+                startTimer = false;
+                timer = 0;
+            }
     }
 
-    // stopwatch button
-    else if ((mouseX >= 85 && mouseX <= 355) && (mouseY >= 100 && mouseY <= 150) && mouseIsPressed) {
-        clockButton = false;
-        timerButton = false;
-        stopwatchButton = true;
-        startTimer = false;
-        timer = 0;
-    }
-
+    // noinspection DuplicatedCode
     if (clockButton) {
         draw_clock();
         
@@ -283,53 +295,57 @@ function draw_clock_app() {
         text('TIMER', 780, 127.5);
     }
 
-    else if (timerButton) {
-        draw_timer();
+    else { // noinspection DuplicatedCode
+        if (timerButton) {
+                draw_timer();
 
-        fill(127);    
-        rect(85, 100, 270, 50);
-    
-        fill(255);
-        textAlign(CENTER, CENTER);
-        textFont('Courier New');
-        textSize(50);
-        text('STOPWATCH', 220, 127.5);
+                fill(127);
+                rect(85, 100, 270, 50);
 
-        fill(127);    
-        rect(365, 100, 270, 50);
-    
-        fill(255);
-        textAlign(CENTER, CENTER);
-        textFont('Courier New');
-        textSize(75);
-        text('CLOCK', 500, 127.5);
-    }
+                fill(255);
+                textAlign(CENTER, CENTER);
+                textFont('Courier New');
+                textSize(50);
+                text('STOPWATCH', 220, 127.5);
 
-    else if (stopwatchButton) {
-        draw_stopwatch();
+                fill(127);
+                rect(365, 100, 270, 50);
 
-        fill(127);    
-        rect(365, 100, 270, 50);
-    
-        fill(255);
-        textAlign(CENTER, CENTER);
-        textFont('Courier New');
-        textSize(75);
-        text('CLOCK', 500, 127.5);
+                fill(255);
+                textAlign(CENTER, CENTER);
+                textFont('Courier New');
+                textSize(75);
+                text('CLOCK', 500, 127.5);
+            }
 
-        fill(127);    
-        rect(645, 100, 270, 50);
+            else if (stopwatchButton) {
+                draw_stopwatch();
 
-        fill(255);
-        textAlign(CENTER, CENTER);
-        textFont('Courier New');
-        textSize(75);
-        text('TIMER', 780, 127.5);
+                fill(127);
+                rect(365, 100, 270, 50);
+
+                fill(255);
+                textAlign(CENTER, CENTER);
+                textFont('Courier New');
+                textSize(75);
+                text('CLOCK', 500, 127.5);
+
+                fill(127);
+                rect(645, 100, 270, 50);
+
+                fill(255);
+                // noinspection ES6ModulesDependencies
+            textAlign(CENTER, CENTER);
+                textFont('Courier New');
+                textSize(75);
+                text('TIMER', 780, 127.5);
+            }
     }
 
     draw_header();
 }  
 
+// noinspection DuplicatedCode
 function draw_clock() {
     // Draw the clock background
     fill(80);
@@ -338,15 +354,18 @@ function draw_clock() {
   
     // Angles for sin() and cos() start at 3 o'clock;
     // subtract HALF_PI to make them start at the top
-    var s = map(second(), 0, 60, 0, TWO_PI) - HALF_PI;
-    var m = map(minute() + norm(second(), 0, 60), 0, 60, 0, TWO_PI) - HALF_PI; 
-    var h = map(hour() + norm(minute(), 0, 60), 0, 24, 0, TWO_PI * 2) - HALF_PI;
+    const s = map(second(), 0, 60, 0, TWO_PI) - HALF_PI;
+    const m = map(minute() + norm(second(), 0, 60), 0, 60, 0, TWO_PI) - HALF_PI;
+    const h = map(hour() + norm(minute(), 0, 60), 0, 24, 0, TWO_PI * 2) - HALF_PI;
 
     // Draw the hands of the clock
     stroke(255);
+    // noinspection ES6ModulesDependencies
     strokeWeight(1);
+    // noinspection ES6ModulesDependencies
     line(cx, cy, cx + cos(s) * secondsRadius, cy + sin(s) * secondsRadius);
     strokeWeight(2);
+    // noinspection ES6ModulesDependencies
     line(cx, cy, cx + cos(m) * minutesRadius, cy + sin(m) * minutesRadius);
     strokeWeight(4);
     line(cx, cy, cx + cos(h) * hoursRadius, cy + sin(h) * hoursRadius);
@@ -354,13 +373,14 @@ function draw_clock() {
     // Draw the minute ticks
     strokeWeight(2);
     beginShape(POINTS);
-    for (var a = 0; a < 360; a += 6) {
-    var angle = radians(a);
-    var x = cx + cos(angle) * secondsRadius;
-    var y = cy + sin(angle) * secondsRadius;
-    vertex(x, y);
+    for (let a = 0; a < 360; a += 6) {
+        const angle = radians(a);
+        const x = cx + cos(angle) * secondsRadius;
+        const y = cy + sin(angle) * secondsRadius;
+        vertex(x, y);
     }
     
+    // noinspection ES6ModulesDependencies
     endShape();
 
     fill(255);
@@ -371,11 +391,13 @@ function draw_clock() {
     text('12', 500, 110);
     text('1', 570, 125);
     text('2', 625, 180);
+    // noinspection ES6ModulesDependencies
     text('3', 640, 250);
     text('4', 625, 320);
     text('5', 570, 375);
     text('6', 500, 395);
     text('7', 430, 375);
+    // noinspection ES6ModulesDependencies
     text('8', 375, 320);
     text('9', 360, 250);
     text('10', 375, 180);
@@ -390,6 +412,7 @@ function draw_timer() {
     textFont('Courier New');
     textSize(200);
 
+    // noinspection ES6ModulesDependencies
     if ((mouseX >= 125 && mouseX <= 375) && (mouseY >= 350 && mouseY <= 400) && mouseIsPressed && (!startTimer)) {
         timer++;
     }
@@ -404,6 +427,7 @@ function draw_timer() {
         startTimer = true;
     }
 
+    // noinspection ES6ModulesDependencies
     if (((frameCount % 60) == 0) && (timer > 0) && (startTimer)) {
         timer --;
     }    
@@ -423,6 +447,7 @@ function draw_timer() {
     }
     else {
         if (timerSecond < 10) {
+            // noinspection ES6ModulesDependencies
             text(timerHour + ":" + timerMinute + ":" + "0" + timerSecond, 500, 250);
         }
         else {
@@ -436,6 +461,7 @@ function draw_timer() {
 
     fill(0, 0, 255);
     textSize(50);
+    // noinspection ES6ModulesDependencies
     text("START", 500, 375);
 
     // increase time
@@ -444,7 +470,7 @@ function draw_timer() {
 
     fill(0, 255, 0);
     textSize(30);
-    text("Increase Time", 250, 375)
+    text("Increase Time", 250, 375);
 
     // decrease time
     fill(127);
@@ -465,6 +491,7 @@ function draw_stopwatch() {
     textFont('Courier New');
     textSize(200);
 
+    // noinspection ES6ModulesDependencies
     if ((mouseX >= 250 && mouseX <= 400) && (mouseY >= 350 && mouseY <= 400) && mouseIsPressed) {
         startStopWatch = true;
     }
@@ -508,6 +535,7 @@ function draw_stopwatch() {
 
 //========== MAP FUNCTIONS ==========
 
+// noinspection DuplicatedCode
 function draw_map() {
     if ((mouseX >= 485 && mouseX <= 585) && (mouseY >= 370 && mouseY <= 420) && mouseIsPressed) {
         default_map = false;
@@ -573,11 +601,11 @@ function draw_weather_fullscreen() {
 
 function draw_weather_fullscreen_data() {
     //objects for next 5 days
-    var day1 = current_weather_data;
-    var day2 = weekly_weather_data.list[5];
-    var day3 = weekly_weather_data.list[13];
-    var day4 = weekly_weather_data.list[21];
-    var day5 = weekly_weather_data.list[29];
+    const day1 = current_weather_data;
+    const day2 = weekly_weather_data.list[5];
+    const day3 = weekly_weather_data.list[13];
+    const day4 = weekly_weather_data.list[21];
+    const day5 = weekly_weather_data.list[29];
 
     draw_weather_window(day1, 160, 150);
     draw_weather_window(day2, 330, 150);
@@ -594,13 +622,13 @@ function draw_weather_window(data, x, y) {
     textAlign(CENTER);
 
     let f = to_fahrenheit(data.main.temp);
-    let degrees = f + '\xB0'
+    let degrees = f + '\xB0';
 
     text(degrees, x, y);
 }
 
 function get_weekly_weather_data(cityID) {
-    var key = 'c716233d515c9bd6c5a36ad3cf719885';
+    const key = 'c716233d515c9bd6c5a36ad3cf719885';
     return fetch('http://api.openweathermap.org/data/2.5/forecast?id=' + cityID + '&appid=' + key).then(response => response.json())
 }
 
@@ -608,7 +636,7 @@ function draw_weather() {
     data = current_weather_data;
     if (data != null) {  //workaround for javascript's fucking async bullshit
         let f = to_fahrenheit(data.main.temp);  //calculate fahrenheit
-        let degrees = f + '\xB0'  //unicode symbol for degree
+        let degrees = f + '\xB0';  //unicode symbol for degree
 
         fill(255,255,255);
         textSize(30);
@@ -623,7 +651,7 @@ function to_fahrenheit(k) {
 }
 
 function get_current_weather_data(cityID) {
-    var key = 'c716233d515c9bd6c5a36ad3cf719885';
+    const key = 'c716233d515c9bd6c5a36ad3cf719885';
     return fetch('http://api.openweathermap.org/data/2.5/weather?id=' + cityID + '&appid=' + key).then(response => response.json());
   }
 
@@ -640,8 +668,8 @@ function draw_date() {
 }
 
 function get_date() {
-    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    var today  = new Date();
+    const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
+    const today = new Date();
 
     return today.toLocaleDateString("en-US", options);  //nicely formatted date
 }
@@ -649,11 +677,11 @@ function get_date() {
 // ========== TIME FUNCTIONS ==========
 
 function draw_time() {
-    var now = new Date();
-    var hour = now.getHours();
-    var minute = now.getMinutes();
-    var timeDay = ' a.m.';
-    var zero = '';
+    const now = new Date();
+    let hour = now.getHours();
+    const minute = now.getMinutes();
+    let timeDay = ' a.m.';
+    let zero = '';
 
     if (hour >= 12 && hour < 24) {
         timeDay = ' p.m.';
@@ -672,6 +700,7 @@ function draw_time() {
     textSize(30);
     textFont('Georgia');
     textAlign(LEFT);
+    // noinspection ES6ModulesDependencies
     text(hour + ':' + zero + minute + timeDay, 15, 35);
 }
 
@@ -703,12 +732,12 @@ function draw_newsfeed() {
 }
 
 function draw_news_stories(data) {
-    var story1 = data.articles[0];
-    var story2 = data.articles[1];
-    var story3 = data.articles[2];
+    const story1 = data.articles[0];
+    const story2 = data.articles[1];
+    const story3 = data.articles[2];
 
     draw_story(story1, 95, 90);
-    draw_story(story2, 95, 206.66)
+    draw_story(story2, 95, 206.66);
     draw_story(story3, 95, 323.33)
 }
 
@@ -722,10 +751,11 @@ function draw_story(story, titlex, titley) {
     //textStyle(BOLD);
     textFont('Georgia');
     textAlign(CENTER, TOP);
+    // noinspection ES6ModulesDependencies
     text(story.title, titlex, titley, titlex + 715, 20);
 
     //textStyle(ITALIC);
-    textFont('Georgia')
+    textFont('Georgia');
     textSize(12);
     text(story.description, titlex, titley+65, titlex + 715, 20);
 
@@ -866,6 +896,6 @@ function button_home_back_handler() {
 
 function button_initial_home_handler() {
     hide_all_buttons();
-    state = "home"
+    state = "home";
     show_home_buttons();
 }
