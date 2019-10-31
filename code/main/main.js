@@ -90,10 +90,11 @@ async function setup() {
     current_weather_data = await get_current_weather_data(5525577);
     weekly_weather_data = await get_weekly_weather_data(5525577);
 
+    //Possible implementation point is to remove all 'back' icons (as they are repeated multiple times), and keep one
     //button setup
     button_home_weather = createImg('icon_weather.png', 'alt');
     button_home_weather.size(50,50);
-    button_home_weather.position(714.28, 437.5);
+    button_home_weather.position(100, 437.5);
     button_home_weather.mousePressed(button_home_weather_handler);
 
     button_weather_back = createImg('icon_back_circle.png', 'alt');
@@ -103,7 +104,7 @@ async function setup() {
 
     button_home_clock = createImg('icon_clock.png', 'alt');
     button_home_clock.size(50,50)
-    button_home_clock.position(571.42, 437.5);
+    button_home_clock.position(200, 437.5);
     button_home_clock.mousePressed(button_home_clock_handler);
 
     button_clock_back = createImg('icon_back_circle.png', 'alt');
@@ -113,7 +114,7 @@ async function setup() {
 
     button_home_map = createImg('icon_map.png', 'alt');
     button_home_map.size(50,50);
-    button_home_map.position(428.56, 437.5);
+    button_home_map.position(300, 437.5);
     button_home_map.mousePressed(button_home_map_handler);
 
     button_map_back = createImg('icon_back_circle.png', 'alt');
@@ -122,7 +123,7 @@ async function setup() {
     button_map_back.mousePressed(button_map_back_handler);
 
     button_home_newsfeed = createImg('icon_newsfeed.png', 'alt');
-    button_home_newsfeed.position(285.7, 437.5);
+    button_home_newsfeed.position(400, 437.5);
     button_home_newsfeed.size(50,50);
     button_home_newsfeed.mousePressed(button_home_newsfeed_handler);
 
@@ -132,7 +133,7 @@ async function setup() {
     button_newsfeed_back.mousePressed(button_newsfeed_back_handler);
 
     button_home_health = createImg('icon_health.png', 'alt');
-    button_home_health.position(142.84, 437.5);
+    button_home_health.position(500, 437.5);
     button_home_health.size(50,50);
     button_home_health.mousePressed(button_home_health_handler);
 
@@ -151,13 +152,12 @@ async function setup() {
     button_home_back.position(857.14, 437.5);
     button_home_back.mousePressed(button_home_back_handler);
 
-    //Per Apple documentation, we are expected to use an Apple Authorized Image
-    //therefore, I have added the standard icon to the project.
-    //well technically not the standard image as it is cropped, and that is against
-    //Apple documentation rules, so we can replace it if you want to
+    /* we are expected by Apple to use their images but I've already changed it more than they like so if someone
+    wants to make an image that will match the style of the rest of the images that's fine :D
+     */
     button_home_music = createImg('icon_music.png', 'alt');
     button_home_music.size(50, 50);
-    button_home_music.position(50, 437.5);
+    button_home_music.position(600, 437.5);
     button_home_music.mousePressed(button_home_music_handler);
 
     button_back = createImg('icon_back_circle.png', 'alt');
@@ -167,9 +167,8 @@ async function setup() {
 
     button_home_calendar = createImg('icon_calendar.png', 'alt');
     button_home_calendar.size(50, 50);
-    button_home_calendar.position(500, 437.5);
+    button_home_calendar.position(700, 437.5);
     button_home_calendar.mousePressed(button_home_calendar_handler);
-
 
     buttons = [];
     buttons.push(
