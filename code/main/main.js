@@ -26,7 +26,8 @@ var button_health_back;
 var button_initial_home;
 
 let button_home_music;
-let button_music_back;
+let button_home_calendar;
+let button_back;
 
 let HealthState = 'Exercise';
 let Exercise;
@@ -74,6 +75,7 @@ var work_map = false;
 async function preload() {
     //!din = loadFont('fonts/D-DIN.otf')
 }
+
 
 async function setup() {
     createCanvas(1000, 500);
@@ -158,10 +160,15 @@ async function setup() {
     button_home_music.position(50, 437.5);
     button_home_music.mousePressed(button_home_music_handler);
 
-    button_music_back = createImg('icon_back_circle.png', 'alt');
-    button_music_back.size(50, 50);
-    button_music_back.position(475, 437.5);
-    button_music_back.mousePressed(button_music_back_handler);
+    button_back = createImg('icon_back_circle.png', 'alt');
+    button_back.size(50, 50);
+    button_back.position(475, 437.5);
+    button_back.mousePressed(button_music_back_handler);
+
+    button_home_calendar = createImg('icon_calendar.png', 'alt');
+    button_home_calendar.size(50, 50);
+    button_home_calendar.position(500, 437.5);
+    button_home_calendar.mousePressed(button_home_calendar_handler);
 
 
     buttons = [];
@@ -179,7 +186,8 @@ async function setup() {
         button_home_back,
         button_initial_home,
         button_home_music,
-        button_music_back
+        button_home_calendar,
+        button_back
     );
 
     console.log(buttons.length);
@@ -280,6 +288,11 @@ function draw() {
             hideAll();
             select('#music', HTMLElement).position(75, 75);
             select('#music', HTMLElement).show();
+            break;
+        case "Calendar":
+            hideAll();
+            select('#calendar', HTMLElement).position(75,75);
+            select('#calendar', HTMLElement).show();
             break;
         default:
             background(0);
@@ -475,7 +488,7 @@ function draw_timer() {
         startTimer = true;
     }
 
-    if (((frameCount % 60) == 0) && (timer > 0) && (startTimer)) {
+    if (((frameCount % 60) === 0) && (timer > 0) && (startTimer)) {
         timer --;
     }
 
@@ -737,7 +750,7 @@ function draw_time() {
     }
 
     hour %= 12;
-    if (hour == 0) {
+    if (hour === 0) {
         hour += 12;
     }
 
@@ -864,7 +877,14 @@ function button_home_music_handler() {
     hide_all_buttons();
     console.log('going to fullscreen music');
     state = "Music";
-    button_music_back.show();
+    button_back.show();
+}
+
+function button_home_calendar_handler() {
+    hide_all_buttons();
+    console.log('going to fullscreen calendar');
+    state = "Calendar";
+    button_back.show();
 }
 
 function button_music_back_handler() {
@@ -881,6 +901,7 @@ function show_home_buttons() {
     button_home_health.show();
     button_home_back.show();
     button_home_music.show();
+    button_home_calendar.show();
 }
 
 function button_home_weather_handler() {
