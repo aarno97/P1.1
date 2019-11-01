@@ -72,6 +72,12 @@ var default_map = false;
 var school_map = false;
 var work_map = false;
 
+//weather icons
+var icon_sunnny;
+var icon_partlycloudy;
+var icon_cloudy;
+var icon_rainy;
+
 async function preload() {
     //!din = loadFont('fonts/D-DIN.otf')
 }
@@ -89,6 +95,16 @@ async function setup() {
     newsfeed_data = await get_newsfeed_data();
     current_weather_data = await get_current_weather_data(5525577);
     weekly_weather_data = await get_weekly_weather_data(5525577);
+
+    icon_sunnny = loadImage("icon_sunny.png");
+    icon_partlycloudy = loadImage("icon_partlycloudy.png");
+    icon_cloudy = loadImage("icon_cloudy.png");
+    icon_rainy = loadImage("icon_rainy.png");
+
+    icon_sunnny.resize(100, 0);
+    icon_partlycloudy.resize(100,0);
+    icon_rainy.resize(100,0);
+    icon_cloudy.resize(100,0);
 
     //Possible implementation point is to remove all 'back' icons (as they are repeated multiple times), and keep one
     //button setup
@@ -641,7 +657,7 @@ function draw_weather_fullscreen() {
     //background(33,33,33);
 
     fill(1, 14, 36);
-    rect(75, 75, 850, 350);
+    rect(75, 75, 850, 350, 15);
 
     //divide into 5 sections for forecast
     stroke(255,255,255);
@@ -649,6 +665,9 @@ function draw_weather_fullscreen() {
     line(415, 75, 415, 425);
     line(585, 75, 585, 425);
     line(755, 75, 755, 425);
+
+    //draw dates
+
 
     if ((weekly_weather_data != null) && (current_weather_data != null)) {
         draw_weather_fullscreen_data();
@@ -661,18 +680,22 @@ function draw_weather_fullscreen() {
 
 
 function draw_weather_fullscreen_data() {
-    //objects for next 5 days
+    //objects for next 5 day
     var day1 = current_weather_data;
     var day2 = weekly_weather_data.list[5];
     var day3 = weekly_weather_data.list[13];
     var day4 = weekly_weather_data.list[21];
     var day5 = weekly_weather_data.list[29];
 
+    imageMode(CENTER)
     draw_weather_window(day1, 160, 150);
     draw_weather_window(day2, 330, 150);
     draw_weather_window(day3, 500, 150);
     draw_weather_window(day4, 670, 150);
     draw_weather_window(day5, 840, 150);
+    imageMode(CORNER)
+
+    draw_weather_dates();
 }
 
 function draw_weather_window(data, x, y) {
@@ -682,10 +705,61 @@ function draw_weather_window(data, x, y) {
     textFont('Georgia');
     textAlign(CENTER);
 
-    let f = to_fahrenheit(data.main.temp);
-    let degrees = f + '\xB0'
+    let fmax = to_fahrenheit(data.main.temp_max);
+    let fmin = to_fahrenheit(data.main.temp_min);
+    let max_degrees = fmax + '\xB0'
+    let min_degrees = fmin + '\xB0'
 
-    text(degrees, x, y);
+    let icon = get_weather_icon(data.weather[4], x, y);
+    image(icon, x, y+40);
+
+    text(max_degrees, x, y+130);
+}
+
+function get_weather_icon(icon) {
+    switch(icon) {
+        case "01d": //sunny
+            return icon_sunnny;
+        case "02d": //partlycloudy
+            return icon_partlycloudy;
+        case "03d": //cloudy
+            return icon_cloudy;
+        case "09d" : //rainy
+            return icon_rainy;
+        case "10d":
+            return icon_rainy;
+        case "11d":
+            return icon_rainy;
+        default:
+            return icon_sunnny;
+    }
+}
+
+function draw_weather_dates() {
+    var options = { weekday: 'long', month: 'long', day: 'numeric' };
+    var date1  = new Date();
+    var date2 = new Date(date1.getTime() + (24 * 60 * 60 * 1000));
+    var date3 = new Date(date1.getTime() + (48 * 60 * 60 * 1000));
+    var date4 = new Date(date1.getTime() + (72 * 60 * 60 * 1000));
+    var date5 = new Date(date1.getTime() + (96 * 60 * 60 * 1000));
+
+    t1 = date1.toLocaleDateString("en-US", options);
+    t2 = date2.toLocaleDateString("en-US", options);
+    t3 = date3.toLocaleDateString("en-US", options);
+    t4 = date4.toLocaleDateString("en-US", options);
+    t5 = date5.toLocaleDateString("en-US", options);
+
+    noStroke();
+    fill(255,255,255);
+    textSize(16)
+    textFont('Georgia');
+    textAlign(CENTER,TOP);
+
+    text(t1,160,90);
+    text(t2,330,90);
+    text(t3,500,90);
+    text(t4,670,90);
+    text(t5,840,90);
 }
 
 function get_weekly_weather_data(cityID) {
@@ -702,8 +776,8 @@ function draw_weather() {
         fill(255,255,255);
         textSize(30);
         textFont('Georgia');
-        textAlign(RIGHT);
-        text(degrees, 985, 35);
+        textAlign(RIGHT, TOP);
+        text(degrees, 985, 10);
     }
 }
 
@@ -725,7 +799,7 @@ function draw_date() {
     textSize(30);
     textFont('Georgia');
     textAlign(CENTER);
-    text(date, 500, 35);
+    text(date, 500, 10);
 }
 
 function get_date() {
@@ -760,8 +834,8 @@ function draw_time() {
     fill(255,255,255);
     textSize(30);
     textFont('Georgia');
-    textAlign(LEFT);
-    text(hour + ':' + zero + minute + timeDay, 15, 35);
+    textAlign(LEFT, TOP);
+    text(hour + ':' + zero + minute + timeDay, 15, 10);
 }
 
 // ========== NEWSFEED FUNCTIONS ==========
