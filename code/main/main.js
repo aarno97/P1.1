@@ -160,7 +160,7 @@ async function setup() {
 
     button_initial_home = createImg('icon_home.png', 'alt');
     button_initial_home.size(50,50);
-    button_initial_home.position(875, 375);
+    button_initial_home.position(925, 425);
     button_initial_home.mousePressed(button_initial_home_handler);
 
     button_home_back = createImg('icon_back_circle.png', 'alt');
@@ -655,6 +655,8 @@ function draw_map() {
 function draw_weather_fullscreen() {
     noStroke();
     //background(33,33,33);
+    mirror_camera_blur();
+
 
     fill(1, 14, 36);
     rect(75, 75, 850, 350, 15);
@@ -850,7 +852,7 @@ function draw_newsfeed() {
     data = newsfeed_data;
 
     fill(1, 14, 36);
-    rect(75, 75, 850, 350);
+    rect(75, 75, 850, 350, 20);
 
     //divide into image and title section
     stroke(255,255,255);
@@ -927,6 +929,15 @@ function mirror_camera() {
     image(c, 0, 0, 1000, 500);
     translate(c.width, 0);
     scale(-1, 1);
+}
+
+function mirror_camera_blur() {
+    translate(c.width, 0);
+    scale(-1, 1);
+    image(c, 0, 0, 1000, 500);
+    translate(c.width, 0);
+    scale(-1, 1);
+    filter(BLUR, 5)
 }
 
 
