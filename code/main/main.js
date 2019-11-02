@@ -160,7 +160,7 @@ async function setup() {
 
     button_initial_home = createImg('icon_home.png', 'alt');
     button_initial_home.size(50,50);
-    button_initial_home.position(925, 425);
+    button_initial_home.position(857.14, 437.5);
     button_initial_home.mousePressed(button_initial_home_handler);
 
     button_home_back = createImg('icon_back_circle.png', 'alt');
@@ -298,16 +298,19 @@ function draw() {
             } else if(HealthState === 'Step') {
                 image(Step, 75, 75, 850, 350);
             }
+            draw_header();
             break;
         case "Music":
             hideAll();
             select('#music', HTMLElement).position(75, 75);
             select('#music', HTMLElement).show();
+            draw_header();
             break;
         case "Calendar":
             hideAll();
             select('#calendar', HTMLElement).position(75,75);
             select('#calendar', HTMLElement).show();
+            draw_header();
             break;
         default:
             background(0);
@@ -657,8 +660,7 @@ function draw_weather_fullscreen() {
     //background(33,33,33);
     mirror_camera_blur();
 
-
-    fill(1, 14, 36);
+    fill('rgba(1, 14, 36, 0.5)');
     rect(75, 75, 850, 350, 15);
 
     //divide into 5 sections for forecast
@@ -937,7 +939,7 @@ function mirror_camera_blur() {
     image(c, 0, 0, 1000, 500);
     translate(c.width, 0);
     scale(-1, 1);
-    filter(BLUR, 5)
+    filter(BLUR, 3)
 }
 
 
@@ -1068,7 +1070,7 @@ function button_initial_home_handler() {
 
 function createHealth() {
     ExerButton = createButton('Exercise Results');
-    ExerButton.position(200,50);
+    ExerButton.position(180,50);
     ExerButton.mousePressed(ExerciseButton);
     MovButton = createButton('Move Results');
     MovButton.position(325, 50);
@@ -1082,6 +1084,7 @@ function createHealth() {
     SteButton = createButton('Step Results');
     SteButton.position(700, 50);
     SteButton.mousePressed(StepButton);
+
 }
 
 function showHealth() {
