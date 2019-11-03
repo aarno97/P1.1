@@ -262,7 +262,6 @@ async function setup() {
 
 
 function draw() {
-    background(63);
     noStroke();
     switch(state) {
         case "initial":
@@ -302,6 +301,9 @@ function draw() {
         case "health":
             hideAll();
             showHealth();
+            mirror_camera_blur();
+            fill('rgba(36, 36, 36, 0.5)');
+            rect(75, 75, 850, 350, 15);
             if(HealthState === 'Exercise') {
                 image(Exercise, 75, 75, 850, 350);
             } else if(HealthState === 'Move') {
@@ -317,11 +319,13 @@ function draw() {
             break;
         case "Music":
             hideAll();
+            mirror_camera_blur();
             select('#music', HTMLElement).position(75, 75);
             select('#music', HTMLElement).show();
             draw_header();
             break;
         case "Calendar":
+            mirror_camera_blur();
             hideAll();
             select('#calendar', HTMLElement).position(75,75);
             select('#calendar', HTMLElement).show();
@@ -336,6 +340,7 @@ function draw() {
 function draw_header () {
     //textFont(din);
     noStroke();
+    textStyle(NORMAL);
     draw_weather();
     draw_date();
     draw_time();
@@ -345,9 +350,11 @@ function draw_header () {
 
 function draw_clock_app() {
     // full screen background
-    fill(1, 14, 36);
     noStroke();
-    rect(75, 75, 850, 350);
+    mirror_camera_blur();
+    fill('rgba(36, 36, 36, 0.5)');
+    rect(75, 75, 850, 350, 15);
+    noStroke();
 
     // clock button
     if ((mouseX >= 365 && mouseX <= 635) && (mouseY >= 100 && mouseY <= 150) && mouseIsPressed) {
@@ -628,6 +635,7 @@ function draw_stopwatch() {
 function draw_map() {
 
     hideAll();
+    mirror_camera_blur();
     select('#map', HTMLElement).position(75,75);
     select('#map', HTMLElement).show();
 
