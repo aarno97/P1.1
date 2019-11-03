@@ -285,6 +285,7 @@ function draw() {
         case "weather":
             hideAll();
             // draw_weather_fullscreen();
+            rect(75, 75, 850, 350, 15);
             select('#weather', HTMLElement).position(75, 75);
             select('#weather', HTMLElement).show();
             break;
