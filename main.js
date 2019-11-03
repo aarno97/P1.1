@@ -387,7 +387,7 @@ function draw_clock_app() {
         draw_clock();
 
         fill(127);
-        rect(85, 100, 270, 50);
+        rect(85, 100, 270, 50, 5);
 
         fill(255);
         textAlign(CENTER, CENTER);
