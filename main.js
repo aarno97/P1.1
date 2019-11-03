@@ -304,7 +304,6 @@ function draw() {
         case "health":
             hideAll();
             showHealth();
-            mirror_camera_blur();
             fill('rgba(36, 36, 36, 0.5)');
             rect(75, 75, 850, 350, 15);
             if(HealthState === 'Exercise') {
@@ -322,13 +321,11 @@ function draw() {
             break;
         case "Music":
             hideAll();
-            mirror_camera_blur();
             select('#music', HTMLElement).position(75, 75);
             select('#music', HTMLElement).show();
             draw_header();
             break;
         case "Calendar":
-            mirror_camera_blur();
             hideAll();
             select('#calendar', HTMLElement).position(75,75);
             select('#calendar', HTMLElement).show();
