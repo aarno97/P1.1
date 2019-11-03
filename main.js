@@ -284,7 +284,9 @@ function draw() {
             break;
         case "weather":
             hideAll();
-            draw_weather_fullscreen();
+            // draw_weather_fullscreen();
+            select('#weather', HTMLElement).position(75, 75);
+            select('#weather', HTMLElement).show();
             break;
         case "clock":
             hideAll();
@@ -1180,6 +1182,7 @@ function hideAll() {
     select('#map', HTMLElement).hide();
     select('#calendar', HTMLElement).hide();
     select('#music', HTMLElement).hide();
+    select('#weather', HTMLElement).hide();
 }
 
 function ExerciseButton() {
