@@ -6,6 +6,8 @@ The presentation is also available as a PowerPoint presentation at this [link](h
 
 Please view the [HTML](https://github.com/apape97/P1.1/blob/master/AaronCode/index.html). 
 
+Please view the GitHub [presentation pages](https://apape97.github.io/P1.1/). 
+
 
 ###### Some aspects have been pulled from pre-built services, each one of these are owned by their respective owners: Google owns Google Calendar and Google Maps and Apple has provided their Apple Music Toolbox for an implementation of music and audio control. 
 
