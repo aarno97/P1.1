@@ -189,14 +189,14 @@ async function setup() {
     button_home_calendar.position(700, 437.5);
     button_home_calendar.mousePressed(button_home_calendar_handler);
 
-    button_newsfeed_forward = createImg('Images/icon_back_circle.png', 'alt');
+    button_newsfeed_forward = createImg('Images/icon_newsfeed_forward.png', 'alt');
     button_newsfeed_forward.size(50,50);
     button_newsfeed_forward.position(625, 437.5);
     button_newsfeed_forward.mousePressed(button_newsfeed_forward_handler);
 
-    button_newsfeed_backwards = createImg('Images/icon_back_circle.png', 'alt');
+    button_newsfeed_backwards = createImg('Images/icon_newsfeed_backwards.png', 'alt');
     button_newsfeed_backwards.size(50,50);
-    button_newsfeed_backwards.position(375, 437.5);
+    button_newsfeed_backwards.position(325, 437.5);
     button_newsfeed_backwards.mousePressed(button_newsfeed_backwards_handler);
 
     buttons = [];
@@ -219,8 +219,6 @@ async function setup() {
         button_newsfeed_backwards,
         button_newsfeed_forward
     );
-
-    console.log(buttons.length);
 
     hide_all_buttons();
     state = "initial";
@@ -352,7 +350,7 @@ function draw_clock_app() {
     // full screen background
     noStroke();
     mirror_camera_blur();
-    fill('rgba(36, 36, 36, 0.5)');
+    fill('rgba(36, 36, 36, 0.65)');
     rect(75, 75, 850, 350, 15);
     noStroke();
 
@@ -580,9 +578,10 @@ function draw_timer() {
 }
 
 function draw_stopwatch() {
-    fill(1, 14, 36);
+
     noStroke();
-    rect(75, 75, 850, 350);
+    fill('rgba(36, 36, 36, 0.65)');
+    rect(75, 75, 850, 350, 15);
 
     fill(255);
     textAlign(CENTER, CENTER);
@@ -876,7 +875,7 @@ function draw_newsfeed() {
     noStroke();
     data = newsfeed_data;
 
-    fill('rgba(36, 36, 36, 0.5)');
+    fill('rgba(36, 36, 36, 0.65)');
     mirror_camera_blur();
     rect(75, 75, 850, 350, 15);
 
@@ -904,9 +903,6 @@ function draw_news_stories(data) {
     var story7 = data.articles[6];
     var story8 = data.articles[7];
     var story9 = data.articles[8];
-    var story10 = data.articles[9];
-    var story11 = data.articles[10];
-    var story12 = data.articles[11];
 
     switch(newsfeed_page){
         case 1:
@@ -916,13 +912,10 @@ function draw_news_stories(data) {
         case 2:
             draw_stories(story4, story5, story6);
             button_newsfeed_backwards.show();
+            button_newsfeed_forward.show();
             break;
         case 3:
             draw_stories(story7, story8, story9);
-            button_newsfeed_forward.show();
-            break;
-        case 4:
-            draw_stories(story10, story11, story12);
             button_newsfeed_forward.hide();
             break;
         default:
@@ -998,7 +991,7 @@ function mirror_camera_blur() {
     image(c, 0, 0, 1000, 500);
     translate(c.width, 0);
     scale(-1, 1);
-    filter(BLUR, 3)
+    //filter(BLUR, 3)
 }
 
 
@@ -1200,4 +1193,11 @@ function StandButton() {
 
 function StepButton() {
     HealthState = 'Step';
+}
+
+function valid_stories(s1, s2, s3) {
+    if ((s1 != null) && (s2 != null) && (s3 != null)) {
+        return true;
+    }
+    return false;
 }
