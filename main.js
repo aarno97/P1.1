@@ -791,7 +791,7 @@ function draw_weather_dates() {
 
 function get_weekly_weather_data(cityID) {
     var key = 'c716233d515c9bd6c5a36ad3cf719885';
-    return fetch('http://api.openweathermap.org/data/2.5/forecast?id=' + cityID + '&appid=' + key).then(response => response.json())
+    return fetch('https://api.openweathermap.org/data/2.5/forecast?id=' + cityID + '&appid=' + key).then(response => response.json())
 }
 
 function draw_weather() {
@@ -814,7 +814,7 @@ function to_fahrenheit(k) {
 
 function get_current_weather_data(cityID) {
     var key = 'c716233d515c9bd6c5a36ad3cf719885';
-    return fetch('http://api.openweathermap.org/data/2.5/weather?id=' + cityID + '&appid=' + key).then(response => response.json());
+    return fetch('https://api.openweathermap.org/data/2.5/weather?id=' + cityID + '&appid=' + key).then(response => response.json());
   }
 
 // ========== DATE FUNCTIONS ==========
