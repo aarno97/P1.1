@@ -10,7 +10,7 @@ var weekly_weather_data;
 var newsfeed_data;
 var c;  //for video capture
 var din; //!font for header (DO NOT USE WITH CHROME)
-var newsfeed_page
+var newsfeed_page;
 
 //buttons
 var button_home_weather;
@@ -99,10 +99,10 @@ async function setup() {
     current_weather_data = await get_current_weather_data(5525577);
     weekly_weather_data = await get_weekly_weather_data(5525577);
 
-    icon_sunnny = loadImage("icon_sunny.png");
-    icon_partlycloudy = loadImage("icon_partlycloudy.png");
-    icon_cloudy = loadImage("icon_cloudy.png");
-    icon_rainy = loadImage("icon_rainy.png");
+    icon_sunnny = loadImage("Images/icon_sunny.png");
+    icon_partlycloudy = loadImage("Images/icon_partlycloudy.png");
+    icon_cloudy = loadImage("Images/icon_cloudy.png");
+    icon_rainy = loadImage("Images/icon_rainy.png");
 
     icon_sunnny.resize(100, 0);
     icon_partlycloudy.resize(100,0);
@@ -111,62 +111,62 @@ async function setup() {
 
     //Possible implementation point is to remove all 'back' icons (as they are repeated multiple times), and keep one
     //button setup
-    button_home_weather = createImg('icon_weather.png', 'alt');
+    button_home_weather = createImg('Images/icon_weather.png', 'alt');
     button_home_weather.size(50,50);
     button_home_weather.position(100, 437.5);
     button_home_weather.mousePressed(button_home_weather_handler);
 
-    button_weather_back = createImg('icon_back_circle.png', 'alt');
+    button_weather_back = createImg('Images/icon_back_circle.png', 'alt');
     button_weather_back.size(50, 50);
     button_weather_back.position(475, 437.5);
     button_weather_back.mousePressed(button_weather_back_handler);
 
-    button_home_clock = createImg('icon_clock.png', 'alt');
-    button_home_clock.size(50,50)
+    button_home_clock = createImg('Images/icon_clock.png', 'alt');
+    button_home_clock.size(50,50);
     button_home_clock.position(200, 437.5);
     button_home_clock.mousePressed(button_home_clock_handler);
 
-    button_clock_back = createImg('icon_back_circle.png', 'alt');
+    button_clock_back = createImg('Images/icon_back_circle.png', 'alt');
     button_clock_back.size(50, 50);
     button_clock_back.position(475, 437.5);
     button_clock_back.mousePressed(button_clock_back_handler);
 
-    button_home_map = createImg('icon_map.png', 'alt');
+    button_home_map = createImg('Images/icon_map.png', 'alt');
     button_home_map.size(50,50);
     button_home_map.position(300, 437.5);
     button_home_map.mousePressed(button_home_map_handler);
 
-    button_map_back = createImg('icon_back_circle.png', 'alt');
+    button_map_back = createImg('Images/icon_back_circle.png', 'alt');
     button_map_back.size(50, 50);
     button_map_back.position(475, 437.5);
     button_map_back.mousePressed(button_map_back_handler);
 
-    button_home_newsfeed = createImg('icon_newsfeed.png', 'alt');
+    button_home_newsfeed = createImg('Images/icon_newsfeed.png', 'alt');
     button_home_newsfeed.position(400, 437.5);
     button_home_newsfeed.size(50,50);
     button_home_newsfeed.mousePressed(button_home_newsfeed_handler);
 
-    button_newsfeed_back = createImg('icon_back_circle.png', 'alt');
+    button_newsfeed_back = createImg('Images/icon_back_circle.png', 'alt');
     button_newsfeed_back.size(50, 50);
     button_newsfeed_back.position(475, 437.5);
     button_newsfeed_back.mousePressed(button_newsfeed_back_handler);
 
-    button_home_health = createImg('icon_health.png', 'alt');
+    button_home_health = createImg('Images/icon_health.png', 'alt');
     button_home_health.position(500, 437.5);
     button_home_health.size(50,50);
     button_home_health.mousePressed(button_home_health_handler);
 
-    button_health_back = createImg('icon_back_circle.png', 'alt');
+    button_health_back = createImg('Images/icon_back_circle.png', 'alt');
     button_health_back.size(50, 50);
     button_health_back.position(475, 437.5);
     button_health_back.mousePressed(button_health_back_handler);
 
-    button_initial_home = createImg('icon_home.png', 'alt');
+    button_initial_home = createImg('Images/icon_home.png', 'alt');
     button_initial_home.size(50,50);
     button_initial_home.position(857.14, 437.5);
     button_initial_home.mousePressed(button_initial_home_handler);
 
-    button_home_back = createImg('icon_back_circle.png', 'alt');
+    button_home_back = createImg('Images/icon_back_circle.png', 'alt');
     button_home_back.size(50, 50);
     button_home_back.position(857.14, 437.5);
     button_home_back.mousePressed(button_home_back_handler);
@@ -174,27 +174,27 @@ async function setup() {
     /* we are expected by Apple to use their images but I've already changed it more than they like so if someone
     wants to make an image that will match the style of the rest of the images that's fine :D
      */
-    button_home_music = createImg('icon_music.png', 'alt');
+    button_home_music = createImg('Images/icon_music.png', 'alt');
     button_home_music.size(50, 50);
     button_home_music.position(600, 437.5);
     button_home_music.mousePressed(button_home_music_handler);
 
-    button_back = createImg('icon_back_circle.png', 'alt');
+    button_back = createImg('Images/icon_back_circle.png', 'alt');
     button_back.size(50, 50);
     button_back.position(475, 437.5);
     button_back.mousePressed(button_music_back_handler);
 
-    button_home_calendar = createImg('icon_calendar.png', 'alt');
+    button_home_calendar = createImg('Images/icon_calendar.png', 'alt');
     button_home_calendar.size(50, 50);
     button_home_calendar.position(700, 437.5);
     button_home_calendar.mousePressed(button_home_calendar_handler);
 
-    button_newsfeed_forward = createImg('icon_back_circle.png', 'alt');
+    button_newsfeed_forward = createImg('Images/icon_back_circle.png', 'alt');
     button_newsfeed_forward.size(50,50);
     button_newsfeed_forward.position(625, 437.5);
     button_newsfeed_forward.mousePressed(button_newsfeed_forward_handler);
 
-    button_newsfeed_backwards = createImg('icon_back_circle.png', 'alt');
+    button_newsfeed_backwards = createImg('Images/icon_back_circle.png', 'alt');
     button_newsfeed_backwards.size(50,50);
     button_newsfeed_backwards.position(375, 437.5);
     button_newsfeed_backwards.mousePressed(button_newsfeed_backwards_handler);
@@ -240,18 +240,18 @@ async function setup() {
     stopwatch = 0;
 
     //map setup
-    default_map_img = loadImage('default_map.png');
-    school_map_img = loadImage('school_map.png');
-    work_map_img = loadImage('work_map.png');
+    default_map_img = loadImage('Images/default_map.png');
+    school_map_img = loadImage('Images/school_map.png');
+    work_map_img = loadImage('Images/work_map.png');
     default_map = true;
 
     //Aaron Code
 
-    Exercise = loadImage('Exercise Goal.png');
-    Move = loadImage('Move Goal.png');
-    Sleep = loadImage('Sleep Goal.png');
-    Stand = loadImage('Stand Goal.png');
-    Step = loadImage('Step Goal.png');
+    Exercise = loadImage('Images/Exercise Goal.png');
+    Move = loadImage('Images/Move Goal.png');
+    Sleep = loadImage('Images/Sleep Goal.png');
+    Stand = loadImage('Images/Stand Goal.png');
+    Step = loadImage('Images/Step Goal.png');
 
     createHealth();
     // buttonMaker();
@@ -568,7 +568,7 @@ function draw_timer() {
 
     fill(0, 255, 0);
     textSize(30);
-    text("Increase Time", 250, 375)
+    text("Increase Time", 250, 375);
 
     // decrease time
     fill(127);
@@ -597,7 +597,7 @@ function draw_stopwatch() {
         startStopWatch = false;
     }
 
-    if (((frameCount % 6) == 0) && startStopWatch) {
+    if (((frameCount % 6) === 0) && startStopWatch) {
         stopwatch++;
     }
 
@@ -714,13 +714,13 @@ function draw_weather_fullscreen_data() {
     var day4 = weekly_weather_data.list[21];
     var day5 = weekly_weather_data.list[29];
 
-    imageMode(CENTER)
+    imageMode(CENTER);
     draw_weather_window(day1, 160, 150);
     draw_weather_window(day2, 330, 150);
     draw_weather_window(day3, 500, 150);
     draw_weather_window(day4, 670, 150);
     draw_weather_window(day5, 840, 150);
-    imageMode(CORNER)
+    imageMode(CORNER);
 
     draw_weather_dates();
 }
@@ -734,8 +734,8 @@ function draw_weather_window(data, x, y) {
 
     let fmax = to_fahrenheit(data.main.temp_max);
     let fmin = to_fahrenheit(data.main.temp_min);
-    let max_degrees = fmax + '\xB0'
-    let min_degrees = fmin + '\xB0'
+    let max_degrees = fmax + '\xB0';
+    let min_degrees = fmin + '\xB0';
 
     let icon = get_weather_icon(data.weather[4], x, y);
     image(icon, x, y+40);
@@ -778,7 +778,7 @@ function draw_weather_dates() {
 
     noStroke();
     fill(255,255,255);
-    textSize(14)
+    textSize(14);
     textFont('Georgia');
     textAlign(CENTER,TOP);
 
@@ -798,7 +798,7 @@ function draw_weather() {
     data = current_weather_data;
     if (data != null) {  //workaround for javascript's fucking async bullshit
         let f = to_fahrenheit(data.main.temp);  //calculate fahrenheit
-        let degrees = f + '\xB0'  //unicode symbol for degree
+        let degrees = f + '\xB0';  //unicode symbol for degree
 
         fill(255,255,255);
         textSize(30);
@@ -915,7 +915,7 @@ function draw_news_stories(data) {
             break;
         case 2:
             draw_stories(story4, story5, story6);
-            button_newsfeed_backwards.show()
+            button_newsfeed_backwards.show();
             break;
         case 3:
             draw_stories(story7, story8, story9);
@@ -933,7 +933,7 @@ function draw_news_stories(data) {
 
 function draw_stories(s1, s2, s3) {
     draw_story(s1, 95, 90);
-    draw_story(s2, 95, 206.66)
+    draw_story(s2, 95, 206.66);
     draw_story(s3, 95, 323.33)
 }
 
@@ -951,7 +951,7 @@ function draw_story(story, titlex, titley) {
     text(story.title, titlex, titley, titlex + 715, 20);
 
     //textStyle(ITALIC);
-    textFont('Georgia')
+    textFont('Georgia');
     textSize(12);
     text(story.description, titlex, titley+65, titlex + 715, 20);
 
@@ -1125,7 +1125,7 @@ function button_home_back_handler() {
 
 function button_initial_home_handler() {
     hide_all_buttons();
-    state = "home"
+    state = "home";
     show_home_buttons();
 }
 
@@ -1166,8 +1166,6 @@ function showHealth() {
     SleeButton.show();
     SteButton.show();
     StanButton.show();
-    // backButton.show();
-    // healButton.hide();
 }
 
 function hideHealth() {
@@ -1176,8 +1174,6 @@ function hideHealth() {
     SleeButton.hide();
     SteButton.hide();
     StanButton.hide();
-    // backButton.hide();
-    // healButton.show();
 }
 
 function hideAll() {
@@ -1185,18 +1181,6 @@ function hideAll() {
     select('#calendar', HTMLElement).hide();
     select('#music', HTMLElement).hide();
 }
-
-// function MapResults() {
-//     state = 'Map';
-// }
-//
-// function MusicButton() {
-//     state = 'Music';
-// }
-//
-// function CalendarButton() {
-//     State = 'Calendar';
-// }
 
 function ExerciseButton() {
     HealthState = 'Exercise';
