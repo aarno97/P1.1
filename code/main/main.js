@@ -10,6 +10,7 @@ var weekly_weather_data;
 var newsfeed_data;
 var c;  //for video capture
 var din; //!font for header (DO NOT USE WITH CHROME)
+var newsfeed_page
 
 //buttons
 var button_home_weather;
@@ -24,6 +25,8 @@ var button_home_back;
 var button_home_health;
 var button_health_back;
 var button_initial_home;
+var button_newsfeed_forward;
+var button_newsfeed_backwards;
 
 let button_home_music;
 let button_home_calendar;
@@ -186,6 +189,16 @@ async function setup() {
     button_home_calendar.position(700, 437.5);
     button_home_calendar.mousePressed(button_home_calendar_handler);
 
+    button_newsfeed_forward = createImg('icon_back_circle.png', 'alt');
+    button_newsfeed_forward.size(50,50);
+    button_newsfeed_forward.position(625, 437.5);
+    button_newsfeed_forward.mousePressed(button_newsfeed_forward_handler);
+
+    button_newsfeed_backwards = createImg('icon_back_circle.png', 'alt');
+    button_newsfeed_backwards.size(50,50);
+    button_newsfeed_backwards.position(375, 437.5);
+    button_newsfeed_backwards.mousePressed(button_newsfeed_backwards_handler);
+
     buttons = [];
     buttons.push(
         button_home_weather,
@@ -202,7 +215,9 @@ async function setup() {
         button_initial_home,
         button_home_music,
         button_home_calendar,
-        button_back
+        button_back,
+        button_newsfeed_backwards,
+        button_newsfeed_forward
     );
 
     console.log(buttons.length);
@@ -660,7 +675,7 @@ function draw_weather_fullscreen() {
     //background(33,33,33);
     mirror_camera_blur();
 
-    fill('rgba(1, 14, 36, 0.5)');
+    fill('rgba(36, 36, 36, 0.5)');
     rect(75, 75, 850, 350, 15);
 
     //divide into 5 sections for forecast
@@ -755,7 +770,7 @@ function draw_weather_dates() {
 
     noStroke();
     fill(255,255,255);
-    textSize(16)
+    textSize(14)
     textFont('Georgia');
     textAlign(CENTER,TOP);
 
@@ -853,8 +868,9 @@ function draw_newsfeed() {
     noStroke();
     data = newsfeed_data;
 
-    fill(1, 14, 36);
-    rect(75, 75, 850, 350, 20);
+    fill('rgba(36, 36, 36, 0.5)');
+    mirror_camera_blur();
+    rect(75, 75, 850, 350, 15);
 
     //divide into image and title section
     stroke(255,255,255);
@@ -870,14 +886,49 @@ function draw_newsfeed() {
 }
 
 function draw_news_stories(data) {
+
     var story1 = data.articles[0];
     var story2 = data.articles[1];
     var story3 = data.articles[2];
+    var story4 = data.articles[3];
+    var story5 = data.articles[4];
+    var story6 = data.articles[5];
+    var story7 = data.articles[6];
+    var story8 = data.articles[7];
+    var story9 = data.articles[8];
+    var story10 = data.articles[9];
+    var story11 = data.articles[10];
+    var story12 = data.articles[11];
 
-    draw_story(story1, 95, 90);
-    draw_story(story2, 95, 206.66)
-    draw_story(story3, 95, 323.33)
+    switch(newsfeed_page){
+        case 1:
+            draw_stories(story1, story2, story3);
+            button_newsfeed_backwards.hide();
+            break;
+        case 2:
+            draw_stories(story4, story5, story6);
+            button_newsfeed_backwards.show()
+            break;
+        case 3:
+            draw_stories(story7, story8, story9);
+            button_newsfeed_forward.show();
+            break;
+        case 4:
+            draw_stories(story10, story11, story12);
+            button_newsfeed_forward.hide();
+            break;
+        default:
+            background(0);
+            break;
+    }
 }
+
+function draw_stories(s1, s2, s3) {
+    draw_story(s1, 95, 90);
+    draw_story(s2, 95, 206.66)
+    draw_story(s3, 95, 323.33)
+}
+
 
 function draw_story(story, titlex, titley) {
     noStroke();
@@ -1033,7 +1084,9 @@ function button_home_newsfeed_handler() {
     hide_all_buttons();
     console.log('going to fullscreen newsfeed');
     state = "newsfeed";
+    newsfeed_page = 1;
     button_newsfeed_back.show();
+    button_newsfeed_forward.show();
 }
 
 function button_newsfeed_back_handler() {
@@ -1066,6 +1119,18 @@ function button_initial_home_handler() {
     hide_all_buttons();
     state = "home"
     show_home_buttons();
+}
+
+function button_newsfeed_backwards_handler () {
+    if (newsfeed_page > 1) {
+        newsfeed_page--;
+    }
+}
+
+function button_newsfeed_forward_handler () {
+    if (newsfeed_page < 4) {
+        newsfeed_page++;
+    }
 }
 
 function createHealth() {
