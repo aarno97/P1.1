@@ -302,7 +302,8 @@ function draw() {
         case "health":
             hideAll();
             showHealth();
-            fill('rgba(36, 36, 36, 0.5)');
+            mirror_camera_blur();
+            fill('rgba(36, 36, 36, 0.65)');
             rect(75, 75, 850, 350, 15);
             if(HealthState === 'Exercise') {
                 image(Exercise, 75, 75, 850, 350);
@@ -315,6 +316,7 @@ function draw() {
             } else if(HealthState === 'Step') {
                 image(Step, 75, 75, 850, 350);
             }
+            fill(255,25,255);
             draw_header();
             break;
         case "Music":
